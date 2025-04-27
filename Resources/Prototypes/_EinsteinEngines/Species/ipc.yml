@@ -66,6 +66,14 @@
     HeadSide:
       points: 1
       required: false
+    # Frontier: apparently these don't exist on Delta
+    UndergarmentTop:
+      points: 3
+      required: false
+    UndergarmentBottom:
+      points: 3
+      required: false
+    # End Frontier
 
 - type: humanoidBaseSprite
   id: MobIPCMarkingFollowSkin

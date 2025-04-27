@@ -219,6 +219,7 @@
     - FootstepSound
     - DoorBumpOpener
     - AnomalyHost
+  - type: ModifyUndies  # FLOOF Add
 
 - type: entity
   save: false
@@ -292,6 +293,7 @@
     alternateState: Standing
   - type: RoleplayIncentive  # COYOTE Add
   - type: StunVisuals
+  - type: ModifyUndies  # FLOOF Add
 
 - type: entity
   save: false
