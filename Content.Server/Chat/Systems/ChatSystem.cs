@@ -632,6 +632,53 @@ public sealed partial class ChatSystem : SharedChatSystem
         _adminLogger.Add(LogType.Chat, LogImpact.Low, $"LOOC from {player:Player}: {message}");
     }
 
+    // ReSharper disable once InconsistentNaming
+    private void SendSubtleLOOC(EntityUid source, ICommonSession player, string message, bool hideChat)
+    {
+        var name = FormattedMessage.EscapeText(Identity.Name(source, EntityManager));
+
+        if (_adminManager.IsAdmin(player))
+        {
+            if (!_adminLoocEnabled)
+                return;
+        }
+        else if (!_loocEnabled)
+            return;
+        var entityName = Identity.Name(source, EntityManager);
+        if (string.IsNullOrEmpty(entityName))
+        {
+            // If no name override is provided, we use the entity's name.
+            entityName = "bingles";
+        }
+        var nameHashColor = ColorExtensions.ConsistentRandomSeededColorFromString(entityName);
+        var nameHashColorAdjusted = ColorExtensions.PreventColorFromBeingTooCloseToTheBackgroundColor(nameHashColor); // pastilla loses
+        var nameColorString = nameHashColorAdjusted.ToHex();
+
+        var wrappedMessage = Loc.GetString(
+            "chat-manager-entity-subtle-looc-wrap-message",
+            ("entityName", name),
+            ("chatColor", nameColorString), // COYOTESTATION ADD - makes the your name color right
+            ("message", FormattedMessage.EscapeText(message)));
+
+        SendInVoiceRange(
+            ChatChannel.SubtleLOOC,
+            message,
+            wrappedMessage,
+            source,
+            hideChat
+                ? ChatTransmitRange.HideChat
+                : ChatTransmitRange.Normal,
+            player.UserId,
+            voiceRange: SubtleLOOCRange,
+            blockedByOcclusion: !SubtleLOOCGoesThroughWalls,
+            ensmallenedByOcclusion: false,
+            noGhosts: true); // COYOTESTATION ADD - Subtle LOOC does not go to ghosts, so we set noGhosts to true
+        _adminLogger.Add(
+            LogType.Chat,
+            LogImpact.Low,
+            $"SubtleLOOC from {player:Player}: {message}");
+    }
+
     private void SendDeadChat(EntityUid source, ICommonSession player, string message, bool hideChat)
     {
         var clients = GetDeadChatClients();
@@ -714,9 +761,26 @@ public sealed partial class ChatSystem : SharedChatSystem
     /// <summary>
     ///     Sends a chat message to the given players in range of the source entity.
     /// </summary>
-    private void SendInVoiceRange(ChatChannel channel, string message, string wrappedMessage, EntityUid source, ChatTransmitRange range, NetUserId? author = null)
+    private void SendInVoiceRange(
+        ChatChannel channel,
+        string message,
+        string wrappedMessage,
+        EntityUid source,
+        ChatTransmitRange range,
+        NetUserId? author = null,
+        bool blockedByOcclusion = false, // COYOTESTATION ADD - some things dont do thru walls
+        bool ensmallenedByOcclusion = false, // COYOTESTATION ADD - some things do get ensmallened by occlusion
+        float voiceRange = 10f, // COYOTESTATION ADD - shouts go further
+        string? occludedMessage = null,
+        bool noGhosts = false) // COYOTESTATION ADD - some things do not go to ghosts
     {
-        foreach (var (session, data) in GetRecipients(source, VoiceRange))
+        var numHeareded = 0;
+        foreach (var (session, data) in GetRecipients(
+                     source,
+                     voiceRange,
+                     blockedByOcclusion,
+                     ensmallenedByOcclusion,
+                     noGhosts: noGhosts))
         {
             var entRange = MessageRangeCheck(session, data, range);
             if (entRange == MessageRangeCheckResult.Disallowed)
@@ -836,7 +900,13 @@ public sealed partial class ChatSystem : SharedChatSystem
     /// <summary>
     ///     Returns list of players and ranges for all players withing some range. Also returns observers with a range of -1.
     /// </summary>
-    private Dictionary<ICommonSession, ICChatRecipientData> GetRecipients(EntityUid source, float voiceGetRange)
+    private Dictionary<ICommonSession, ICChatRecipientData> GetRecipients(
+        EntityUid source,
+        float voiceGetRange,
+        bool blockedByOcclusion = false,
+        bool effectedByOcclusion = false,
+        bool noGhosts = false
+        )
     {
         // TODO proper speech occlusion
 
@@ -852,6 +922,8 @@ public sealed partial class ChatSystem : SharedChatSystem
         {
             if (player.AttachedEntity is not { Valid: true } playerEntity)
                 continue;
+            // player is admin?
+            var playerIsAdmin = _adminManager.IsAdmin(player);
 
             var transformEntity = xforms.GetComponent(playerEntity);
 
@@ -859,6 +931,19 @@ public sealed partial class ChatSystem : SharedChatSystem
                 continue;
 
             var observer = ghostHearing.HasComponent(playerEntity);
+
+            if (noGhosts
+                && observer
+                && !playerIsAdmin)
+                continue; // Don't include ghosts if we don't want them.
+
+            var amOcccluded = false;
+
+            if (!observer && (blockedByOcclusion || effectedByOcclusion))
+                amOcccluded = !_examineSystem.InRangeUnOccluded(source, playerEntity, voiceGetRange);
+
+            if (amOcccluded && blockedByOcclusion)
+                continue; // If the occlusion is blocked, we don't send the message to this player.
 
             // even if they are a ghost hearer, in some situations we still need the range
             if (sourceCoords.TryDistance(EntityManager, transformEntity.Coordinates, out var distance) && distance < voiceGetRange)
