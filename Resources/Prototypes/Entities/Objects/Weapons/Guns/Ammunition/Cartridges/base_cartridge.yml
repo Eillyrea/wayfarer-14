@@ -40,3 +40,4 @@
         volume: -1
   - type: StaticPrice
     price: 1
+  - type: SpaceJanitor # delete me after a while if im just in space

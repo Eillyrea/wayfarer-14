@@ -115,8 +115,9 @@
     - type: GuideHelp
       guides:
       - GasCanisters
-    - type: Paintable
-      group: Canisters
+    - type: Paintable # Upstream#37341
+      group: Canisters # Upstream#37341
+    - type: SpaceJanitor # delete me after a while if im just in space
 
 - type: entity
   parent: GasCanister

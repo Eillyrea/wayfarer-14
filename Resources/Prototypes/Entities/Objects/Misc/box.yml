@@ -27,3 +27,5 @@
       Cardboard: 100
   - type: StaticPrice
     price: 10
+  - type: SpaceJanitor # delete me after a while if im just in space
+
