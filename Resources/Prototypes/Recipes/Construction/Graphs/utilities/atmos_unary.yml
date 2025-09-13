@@ -34,11 +34,11 @@
         amount: 25
         doAfter: 1
 
-    - to: asslock
-      steps:
-      - material: Steel
-        amount: 50
-        doAfter: 1
+#    - to: asslock
+#      steps:
+#      - material: Steel
+#        amount: 50
+#        doAfter: 1
 
   - node: ventpump
     entity: GasVentPump
@@ -126,18 +126,18 @@
       - tool: Welding
         doAfter: 1
 
-  - node: asslock
-    entity: Gaslock
-    edges:
-    - to: start
-      conditions:
-      - !type:EntityAnchored
-        anchored: false
-      completed:
-      - !type:SpawnPrototype
-        prototype: SheetSteel1
-        amount: 25
-      - !type:DeleteEntity
-      steps:
-      - tool: Welding
-        doAfter: 1
+#  - node: asslock
+#    entity: Gaslock
+#    edges:
+#    - to: start
+#      conditions:
+#      - !type:EntityAnchored
+#        anchored: false
+#      completed:
+#      - !type:SpawnPrototype
+#        prototype: SheetSteel1
+#        amount: 25
+#      - !type:DeleteEntity
+#      steps:
+#      - tool: Welding
+#        doAfter: 1
