@@ -264,7 +264,7 @@
   parent: MarkerBasePlaceFree
   suffix: "Dungeon, Gun, T4"
   categories: [ HideSpawnMenu ]
-  components:1
+  components:
   - type: Sprite
     layers:
     - state: green
