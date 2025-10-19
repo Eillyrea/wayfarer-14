@@ -32,6 +32,9 @@
   - !type:GiveItemOnHolidaySpecial
     holiday: FrontierBirthday
     prototype: FrontierBirthdayGift
+  - !type:AddComponentSpecial
+    components:
+    - type: CoolNfsd
 
 - type: startingGear
   id: BrigmedicGear
@@ -39,13 +42,11 @@
     pocket1: NFWeaponPistolUniversalNfsdLessLethal
   storage:
     back:
+    - EncryptionKeyMedical
     - Flash
     - NFMagazineHighCapacityPistol35Overpressure
     - NFMagazineHighCapacityPistol35Rubber
-    - FrontierUplinkCoin10
-  encryptionKeys:
-  - EncryptionKeyMedical
-
+    - BaseSecurityUplinkRadioOfficer
 - type: chameleonOutfit
   id: BrigmedicChameleonOutfit
   job: Brigmedic
