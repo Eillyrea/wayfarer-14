@@ -495,7 +495,7 @@ public sealed partial class ChatSystem : SharedChatSystem
             ("fontType", speech.FontId),
             ("fontSize", speech.FontSize),
             ("message", FormattedMessage.EscapeText(message)),
-            ("chatColor", chatColor ?? Color.White.ToHex())); // COYOTESTATION ADD - makes the your name color right
+            ("color", chatColor ?? Color.White.ToHex())); // COYOTESTATION ADD - makes the your name color right
         // and the above message, but the font is shrunken by like 20%
         // COYSTATION ADD - ensmallen messages that are occluded by walls but go thru em
         var wrappedMessageSmall = Loc.GetString(speech.Bold ? "chat-manager-entity-say-bold-wrap-message" : "chat-manager-entity-say-wrap-message",
@@ -504,7 +504,7 @@ public sealed partial class ChatSystem : SharedChatSystem
             ("fontType", speech.FontId),
             ("fontSize", Convert.ToInt16(speech.FontSize * 0.7)), // COYOTESTATION ADD - shrunken by 20%
             ("message", FormattedMessage.EscapeText(message)),
-            ("chatColor", chatColorSemiTransparentActually)); // COYOTESTATION ADD - makes the your name color right
+            ("color", chatColorSemiTransparentActually)); // COYOTESTATION ADD - makes the your name color right
         // COYOTESTATION ADD END
 
         SendInVoiceRange(
