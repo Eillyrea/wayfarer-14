@@ -11,7 +11,10 @@
       "name": "match_burnt"
     },
     {
-      "name": "match_lit",
+      "name": "paper-lantern-writing"
+    },
+    {
+      "name": "lit",
       "delays": [
         [
           0.2,
