@@ -279,8 +279,6 @@
         Asphyxiation: -1.0
   - type: FireVisuals
     alternateState: Standing
-  - type: LayingDown
-  - type: ModifyUndies  # FLOOF Add
   - type: RoleplayIncentive  # COYOTE Add
   - type: StunVisuals
 

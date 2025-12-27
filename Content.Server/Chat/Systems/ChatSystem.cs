@@ -936,13 +936,14 @@ public sealed partial class ChatSystem : SharedChatSystem
         var numHeareded = 0;
         foreach (var (session, data) in GetRecipients(source, voiceRange, blockedByOcclusion, ensmallenedByOcclusion))
         {
-            numHeareded++;
             var entRange = MessageRangeCheck(
                 session,
                 data,
                 range);
             if (entRange == MessageRangeCheckResult.Disallowed)
                 continue;
+            
+            numHeareded++;
             var entHideChat = entRange == MessageRangeCheckResult.HideChat;
             var text2Send = ensmallenedByOcclusion && data.Occluded
                 ? occludedMessage ?? wrappedMessage
@@ -1138,19 +1139,6 @@ public sealed partial class ChatSystem : SharedChatSystem
 
     public readonly record struct ICChatRecipientData(float Range, bool Observer, bool? HideChatOverride = null, bool Occluded = false)
     { 
-    }
-
-    /// <summary>
-    /// Do Roleplay Incentive for the given entity, channel and message.
-    /// </summary>
-    private void SendRPIncentive(EntityUid source, ChatChannel channel, string message, int numHeareded)
-    {
-        if (!HasComp<ActorComponent>(source))
-            return;
-        if (numHeareded <= 0)
-            return;
-        var ev = new RoleplayIncentiveEvent(source, channel, message, numHeareded);
-        RaiseLocalEvent(source, ev, true);
     }
 
     /// <summary>
