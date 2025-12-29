@@ -1,0 +1,12 @@
+- type: entity
+  parent: BaseFlag
+  id: PolyFlag
+  name: polyamory flag
+  description: '"Be poly do crime" flag.'
+  components:
+  - type: Sprite
+    sprite: _WF/Structures/Wallmounts/flags.rsi
+    state: poly_flag
+  - type: Construction
+    graph: WFFlags
+    node: PolyFlag
