@@ -59,3 +59,13 @@ Entries:
   id: 6498
   time: '2025-12-29T02:52:45.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/72
+- author: RoY7x
+  changes:
+    - type: Fix
+      message: >-
+        All of the QOL updates I made, have now been properly migrated to the
+        Wayfarer folder. My added content was given my proper licenses in the
+        meta.json's
+  id: 6499
+  time: '2025-12-29T04:56:58.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/46
