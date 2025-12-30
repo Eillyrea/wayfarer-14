@@ -1391,6 +1391,39 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.ToTable("uploaded_resource_log", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.WayfarerRoundSummary", b =>
+                {
+                    b.Property<int>("RoundNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("round_number");
+
+                    b.Property<byte[]>("PlayerManifest")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("player_manifest");
+
+                    b.Property<byte[]>("PlayerStories")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("player_stories");
+
+                    b.Property<byte[]>("ProfitLossData")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("profit_loss_data");
+
+                    b.Property<DateTime>("RoundEndTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("round_end_time");
+
+                    b.Property<DateTime>("RoundStartTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("round_start_time");
+
+                    b.HasKey("RoundNumber")
+                        .HasName("PK_wayfarer_round_summaries");
+
+                    b.ToTable("wayfarer_round_summaries", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.Whitelist", b =>
                 {
                     b.Property<Guid>("UserId")

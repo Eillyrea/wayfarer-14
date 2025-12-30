@@ -47,6 +47,7 @@ namespace Content.Server.Database
         public DbSet<RoleWhitelist> RoleWhitelists { get; set; } = null!;
         public DbSet<BanTemplate> BanTemplate { get; set; } = null!;
         public DbSet<IPIntelCache> IPIntelCache { get; set; } = null!;
+        public DbSet<WayfarerRoundSummary> WayfarerRoundSummaries { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -1361,5 +1362,121 @@ namespace Content.Server.Database
         /// The score IPIntel returned
         /// </summary>
         public float Score { get; set; }
+    }
+
+    // Wayfarer Round Summary Table
+    public class WayfarerRoundSummary
+    {
+        /// <summary>
+        /// Round number - primary key
+        /// </summary>
+        [Key]
+        public int RoundNumber { get; set; }
+
+        /// <summary>
+        /// When the round started
+        /// </summary>
+        [Required]
+        public DateTime RoundStartTime { get; set; }
+
+        /// <summary>
+        /// When the round ended
+        /// </summary>
+        [Required]
+        public DateTime RoundEndTime { get; set; }
+
+        /// <summary>
+        /// Player profit/loss data stored as JSON array
+        /// Expected format: [{"username": "player1", "characterName": "char1", "profitLoss": 1000}, ...]
+        /// </summary>
+        [Column(TypeName = "jsonb")]
+        public JsonDocument? ProfitLossData { get; set; }
+
+        /// <summary>
+        /// Player stories stored as JSON array
+        /// Expected format: [{"username": "player1", "story": "text"}, ...]
+        /// </summary>
+        [Column(TypeName = "jsonb")]
+        public JsonDocument? PlayerStories { get; set; }
+
+        /// <summary>
+        /// Player manifest stored as JSON array
+        /// Expected format: [{"username": "user1", "characterName": "char1", "role": "role1"}, ...]
+        /// </summary>
+        [Column(TypeName = "jsonb")]
+        public JsonDocument? PlayerManifest { get; set; }
+    }
+
+    // Wayfarer Safety Deposit Box Tables
+    public class WayfarerSafetyDepositBox
+    {
+        [Key]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Unique identifier for this deposit box
+        /// </summary>
+        public Guid BoxId { get; set; }
+
+        /// <summary>
+        /// The user ID of the owner
+        /// </summary>
+        public Guid OwnerUserId { get; set; }
+
+        /// <summary>
+        /// The character profile index (slot number) of the owner
+        /// </summary>
+        public int CharacterIndex { get; set; }
+
+        /// <summary>
+        /// Display name of the owner when the box was created
+        /// </summary>
+        [Required]
+        public string OwnerName { get; set; } = null!;
+
+        /// <summary>
+        /// Optional nickname for the box (from label)
+        /// </summary>
+        public string? Nickname { get; set; }
+
+        /// <summary>
+        /// The size/type of box (Small, Medium, Large)
+        /// </summary>
+        [Required]
+        public string BoxSize { get; set; } = "Small";
+
+        /// <summary>
+        /// When the box was purchased
+        /// </summary>
+        public DateTime PurchaseDate { get; set; }
+
+        /// <summary>
+        /// Items stored in this box
+        /// </summary>
+        public List<WayfarerSafetyDepositBoxItem> Items { get; set; } = new();
+    }
+
+    public class WayfarerSafetyDepositBoxItem
+    {
+        [Key]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Foreign key to the deposit box
+        /// </summary>
+        public int BoxId { get; set; }
+
+        public WayfarerSafetyDepositBox Box { get; set; } = null!;
+
+        /// <summary>
+        /// Serialized entity data (YAML format)
+        /// </summary>
+        [Required]
+        public string EntityData { get; set; } = null!;
+
+        /// <summary>
+        /// When this item was deposited
+        /// </summary>
+        public DateTime DepositDate { get; set; }
     }
 }

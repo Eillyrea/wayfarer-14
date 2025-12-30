@@ -82,6 +82,19 @@ namespace Content.Server.Database
                 .Property(log => log.Markings)
                 .HasConversion(jsonByteArrayConverter);
 
+            // WayfarerRoundSummary JSON conversions
+            modelBuilder.Entity<WayfarerRoundSummary>()
+                .Property(e => e.ProfitLossData)
+                .HasConversion(jsonByteArrayConverter);
+
+            modelBuilder.Entity<WayfarerRoundSummary>()
+                .Property(e => e.PlayerStories)
+                .HasConversion(jsonByteArrayConverter);
+
+            modelBuilder.Entity<WayfarerRoundSummary>()
+                .Property(e => e.PlayerManifest)
+                .HasConversion(jsonByteArrayConverter);
+
             // EF core can make this automatically unique on sqlite but not psql.
             modelBuilder.Entity<IPIntelCache>()
                 .HasIndex(p => p.Address)
