@@ -368,6 +368,17 @@ namespace Content.Client.Lobby.UI
 
             #endregion SpawnPriority
 
+            // Wayfarer: hide from playerlist checkbox
+            #region HideFromPlayerlist
+
+            HideFromPlayerlistCheckbox.OnToggled += args =>
+            {
+                SetHideFromPlayerlist(args.Pressed);
+            };
+
+            #endregion HideFromPlayerlist
+            // End Wayfarer
+
             #region Eyes
 
             EyeColorPicker.OnEyeColorPicked += newColor =>
@@ -770,6 +781,7 @@ namespace Content.Client.Lobby.UI
             UpdateGenderControls();
             UpdateSkinColor();
             UpdateSpawnPriorityControls();
+            UpdateHideFromPlayerlistCheckbox(); // Wayfarer
             UpdateAgeEdit();
             UpdateEyePickers();
             UpdateSaveButton();
@@ -1265,6 +1277,14 @@ namespace Content.Client.Lobby.UI
             SetDirty();
         }
 
+        // Wayfarer
+        private void SetHideFromPlayerlist(bool hideFromPlayerlist)
+        {
+            Profile = Profile?.WithHideFromPlayerlist(hideFromPlayerlist);
+            SetDirty();
+        }
+        // End Wayfarer
+
         public bool IsDirty
         {
             get => _isDirty;
@@ -1467,6 +1487,18 @@ namespace Content.Client.Lobby.UI
 
             SpawnPriorityButton.SelectId((int) Profile.SpawnPriority);
         }
+
+        // Wayfarer
+        private void UpdateHideFromPlayerlistCheckbox()
+        {
+            if (Profile == null)
+            {
+                return;
+            }
+
+            HideFromPlayerlistCheckbox.Pressed = Profile.HideFromPlayerlist;
+        }
+        // End Wayfarer
 
         private void UpdateHairPickers()
         {

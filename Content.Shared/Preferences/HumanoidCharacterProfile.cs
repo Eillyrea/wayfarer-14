@@ -106,6 +106,14 @@ namespace Content.Shared.Preferences
         [DataField]
         public SpawnPriorityPreference SpawnPriority { get; private set; } = SpawnPriorityPreference.None;
 
+        // Wayfarer: hide from web playerlist
+        /// <summary>
+        /// Whether to hide this character from the web playerlist.
+        /// </summary>
+        [DataField]
+        public bool HideFromPlayerlist { get; private set; } = false;
+        // End Wayfarer
+
         /// <summary>
         /// <see cref="_jobPriorities"/>
         /// </summary>
@@ -142,7 +150,8 @@ namespace Content.Shared.Preferences
             PreferenceUnavailableMode preferenceUnavailable,
             HashSet<ProtoId<AntagPrototype>> antagPreferences,
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
-            Dictionary<string, RoleLoadout> loadouts)
+            Dictionary<string, RoleLoadout> loadouts,
+            bool hideFromPlayerlist = false) // Wayfarer
         {
             Name = name;
             FlavorText = flavortext;
@@ -153,6 +162,7 @@ namespace Content.Shared.Preferences
             BankBalance = bankBalance;
             Appearance = appearance;
             SpawnPriority = spawnPriority;
+            HideFromPlayerlist = hideFromPlayerlist; // Wayfarer
             _jobPriorities = jobPriorities;
             PreferenceUnavailable = preferenceUnavailable;
             _antagPreferences = antagPreferences;
@@ -168,7 +178,7 @@ namespace Content.Shared.Preferences
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
             Dictionary<string, RoleLoadout> loadouts)
             : this(other.Name, other.FlavorText, other.Species, other.Age, other.Sex, other.Gender, other.BankBalance, other.Appearance, other.SpawnPriority,
-                jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts)
+                jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts, other.HideFromPlayerlist) // Wayfarer
         {
         }
 
@@ -187,7 +197,8 @@ namespace Content.Shared.Preferences
                 other.PreferenceUnavailable,
                 new HashSet<ProtoId<AntagPrototype>>(other.AntagPreferences),
                 new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
-                new Dictionary<string, RoleLoadout>(other.Loadouts))
+                new Dictionary<string, RoleLoadout>(other.Loadouts),
+                other.HideFromPlayerlist) // Wayfarer
         {
         }
 
@@ -316,6 +327,13 @@ namespace Content.Shared.Preferences
         {
             return new(this) { SpawnPriority = spawnPriority };
         }
+
+        // Wayfarer
+        public HumanoidCharacterProfile WithHideFromPlayerlist(bool hideFromPlayerlist)
+        {
+            return new(this) { HideFromPlayerlist = hideFromPlayerlist };
+        }
+        // End Wayfarer
 
         public HumanoidCharacterProfile WithJobPriorities(IEnumerable<KeyValuePair<ProtoId<JobPrototype>, JobPriority>> jobPriorities)
         {
@@ -482,6 +500,7 @@ namespace Content.Shared.Preferences
             if (BankBalance != other.BankBalance) return false; // Frontier
             if (PreferenceUnavailable != other.PreferenceUnavailable) return false;
             if (SpawnPriority != other.SpawnPriority) return false;
+            if (HideFromPlayerlist != other.HideFromPlayerlist) return false; // Wayfarer
             if (!_jobPriorities.SequenceEqual(other._jobPriorities)) return false;
             if (!_antagPreferences.SequenceEqual(other._antagPreferences)) return false;
             if (!_traitPreferences.SequenceEqual(other._traitPreferences)) return false;

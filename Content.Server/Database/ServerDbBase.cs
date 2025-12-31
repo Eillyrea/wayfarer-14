@@ -199,6 +199,20 @@ namespace Content.Server.Database
             await db.DbContext.SaveChangesAsync();
         }
 
+        // Wayfarer (NEW) - Get the database profile ID for a user's character slot
+        public async Task<int?> GetProfileIdAsync(NetUserId userId, int slot)
+        {
+            await using var db = await GetDb();
+            
+            var profile = await db.DbContext.Profile
+                .Include(p => p.Preference)
+                .Where(p => p.Preference.UserId == userId.UserId && p.Slot == slot)
+                .Select(p => p.Id)
+                .FirstOrDefaultAsync();
+                
+            return profile == 0 ? null : profile;
+        }
+
         private static async Task SetSelectedCharacterSlotAsync(NetUserId userId, int newSlot, ServerDbContext db)
         {
             var prefs = await db.Preference.SingleAsync(p => p.UserId == userId.UserId);
@@ -286,7 +300,8 @@ namespace Content.Server.Database
                 (PreferenceUnavailableMode) profile.PreferenceUnavailable,
                 antags.ToHashSet(),
                 traits.ToHashSet(),
-                loadouts
+                loadouts,
+                profile.HideFromPlayerlist // Wayfarer
             );
         }
 
@@ -315,6 +330,7 @@ namespace Content.Server.Database
             profile.EyeColor = appearance.EyeColor.ToHex();
             profile.SkinColor = appearance.SkinColor.ToHex();
             profile.SpawnPriority = (int) humanoid.SpawnPriority;
+            profile.HideFromPlayerlist = humanoid.HideFromPlayerlist; // Wayfarer
             profile.Markings = markings;
             profile.Slot = slot;
             profile.PreferenceUnavailable = (DbPreferenceUnavailableMode) humanoid.PreferenceUnavailable;

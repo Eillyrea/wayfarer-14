@@ -934,6 +934,10 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("hair_name");
 
+                    b.Property<bool>("HideFromPlayerlist")
+                        .HasColumnType("boolean")
+                        .HasColumnName("hide_from_playerlist");
+
                     b.Property<JsonDocument>("Markings")
                         .HasColumnType("jsonb")
                         .HasColumnName("markings");

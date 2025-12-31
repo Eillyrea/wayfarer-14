@@ -91,6 +91,13 @@
                                     <Control HorizontalExpand="True"/>
                                     <OptionButton Name="SpawnPriorityButton" HorizontalAlignment="Right" />
                                 </BoxContainer>
+                                <!-- Wayfarer: Hide from Playerlist -->
+                                <BoxContainer HorizontalExpand="True">
+                                    <Label Text="{Loc 'humanoid-profile-editor-hide-from-playerlist-label'}" />
+                                    <Control HorizontalExpand="True"/>
+                                    <CheckBox Name="HideFromPlayerlistCheckbox" HorizontalAlignment="Right" />
+                                </BoxContainer>
+                                <!-- End Wayfarer -->
                             </BoxContainer>
                             <!-- Skin -->
                             <BoxContainer Margin="10" HorizontalExpand="True" Orientation="Vertical">

@@ -50,6 +50,7 @@ namespace Content.Server.Database
         // Single method for two operations for transaction.
         Task DeleteSlotAndSetSelectedIndex(NetUserId userId, int deleteSlot, int newSlot);
         Task<PlayerPreferences?> GetPlayerPreferencesAsync(NetUserId userId, CancellationToken cancel);
+        Task<int?> GetProfileIdAsync(NetUserId userId, int slot); // Wayfarer (NEW) - Get database profile ID
         #endregion
 
         #region User Ids
@@ -526,6 +527,13 @@ namespace Content.Server.Database
         {
             DbReadOpsMetric.Inc();
             return RunDbCommand(() => _db.GetPlayerPreferencesAsync(userId, cancel));
+        }
+
+        // Wayfarer (NEW) - Get database profile ID wrapper
+        public Task<int?> GetProfileIdAsync(NetUserId userId, int slot)
+        {
+            DbReadOpsMetric.Inc();
+            return RunDbCommand(() => _db.GetProfileIdAsync(userId, slot));
         }
 
         public Task AssignUserIdAsync(string name, NetUserId userId)
