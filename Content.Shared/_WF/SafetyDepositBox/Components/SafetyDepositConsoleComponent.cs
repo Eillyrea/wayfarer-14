@@ -14,19 +14,19 @@ public sealed partial class SafetyDepositConsoleComponent : Component
     /// Cost to purchase a small safety deposit box.
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public int SmallBoxCost = 250000;
+    public int SmallBoxCost = 2250000;
 
     /// <summary>
     /// Cost to purchase a medium safety deposit box.
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public int MediumBoxCost = 750000;
+    public int MediumBoxCost = 3500000;
 
     /// <summary>
     /// Cost to purchase a large safety deposit box.
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public int LargeBoxCost = 1250000;
+    public int LargeBoxCost = 4250000;
 
     /// <summary>
     /// Slot for depositing/withdrawing boxes.
