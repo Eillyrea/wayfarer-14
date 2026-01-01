@@ -467,6 +467,11 @@ namespace Content.Client.Lobby.UI
 
             SpeciesInfoButton.OnPressed += OnSpeciesInfoButtonPressed;
 
+
+            #region CustomSpecieName
+            CCustomSpecieNameEdit.OnTextChanged += args => { SetCustomSpecieName(args.Text); };
+            #endregion CustomSpecieName
+
             UpdateSpeciesGuidebookIcon();
             IsDirty = false;
         }
@@ -783,6 +788,7 @@ namespace Content.Client.Lobby.UI
             UpdateSpawnPriorityControls();
             UpdateHideFromPlayerlistCheckbox(); // Wayfarer
             UpdateAgeEdit();
+            UpdateCustomSpecieNameEdit();
             UpdateEyePickers();
             UpdateSaveButton();
             UpdateMarkings();
@@ -1271,6 +1277,13 @@ namespace Content.Client.Lobby.UI
             _entManager.System<MetaDataSystem>().SetEntityName(PreviewDummy, newName);
         }
 
+        private void SetCustomSpecieName(string customname)
+        {
+            Profile = Profile?.WithCustomSpeciesName(customname);
+            IsDirty = true;
+        }
+
+
         private void SetSpawnPriority(SpawnPriorityPreference newSpawnPriority)
         {
             Profile = Profile?.WithSpawnPriorityPreference(newSpawnPriority);
@@ -1314,6 +1327,11 @@ namespace Content.Client.Lobby.UI
         private void UpdateAgeEdit()
         {
             AgeEdit.Text = Profile?.Age.ToString() ?? "";
+        }
+
+        private void UpdateCustomSpecieNameEdit()
+        {
+            CCustomSpecieNameEdit.Text = Profile?.Customspeciesname ?? "";
         }
 
         /// <summary>

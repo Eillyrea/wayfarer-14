@@ -3,6 +3,7 @@ using System;
 using Content.Server.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Content.Server.Database.Migrations.Sqlite
 {
     [DbContext(typeof(SqliteServerDbContext))]
-    partial class SqliteServerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250810013155_AddsInCustomSpeciesNames")]
+    partial class AddsInCustomSpeciesNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -804,11 +807,6 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("admin_ooc_color");
 
-                    b.PrimitiveCollection<string>("ConstructionFavorites")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("construction_favorites");
-
                     b.Property<int>("SelectedCharacterSlot")
                         .HasColumnType("INTEGER")
                         .HasColumnName("selected_character_slot");
@@ -885,10 +883,6 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("hair_name");
-
-                    b.Property<bool>("HideFromPlayerlist")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("hide_from_playerlist");
 
                     b.Property<byte[]>("Markings")
                         .HasColumnType("jsonb")
@@ -1398,39 +1392,6 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasName("PK_uploaded_resource_log");
 
                     b.ToTable("uploaded_resource_log", (string)null);
-                });
-
-            modelBuilder.Entity("Content.Server.Database.WayfarerRoundSummary", b =>
-                {
-                    b.Property<int>("RoundNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("round_number");
-
-                    b.Property<byte[]>("PlayerManifest")
-                        .HasColumnType("jsonb")
-                        .HasColumnName("player_manifest");
-
-                    b.Property<byte[]>("PlayerStories")
-                        .HasColumnType("jsonb")
-                        .HasColumnName("player_stories");
-
-                    b.Property<byte[]>("ProfitLossData")
-                        .HasColumnType("jsonb")
-                        .HasColumnName("profit_loss_data");
-
-                    b.Property<DateTime>("RoundEndTime")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("round_end_time");
-
-                    b.Property<DateTime>("RoundStartTime")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("round_start_time");
-
-                    b.HasKey("RoundNumber")
-                        .HasName("PK_wayfarer_round_summaries");
-
-                    b.ToTable("wayfarer_round_summaries", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.Whitelist", b =>

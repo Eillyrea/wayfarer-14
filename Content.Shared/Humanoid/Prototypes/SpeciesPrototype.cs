@@ -78,6 +78,19 @@ public sealed partial class SpeciesPrototype : IPrototype
     public EntProtoId DollPrototype { get; private set; } = default!;
 
     /// <summary>
+    /// The Kind of the species, for allowing bulk access for markings that should be fiiiine
+    /// Can be null, in which case it will not be used.
+    /// </summary>
+    [DataField("kind")]
+    public List<string>? Kind { get; private set; } = null;
+
+    /// <summary>
+    /// Allow Custom Specie Name for this Specie.
+    /// </summary>
+    [DataField]
+    public Boolean CustomName { get; private set; } = false;
+
+    /// <summary>
     /// Method of skin coloration used by the species.
     /// </summary>
     [DataField(required: true)]

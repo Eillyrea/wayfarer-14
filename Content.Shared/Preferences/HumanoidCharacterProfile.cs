@@ -78,6 +78,9 @@ namespace Content.Shared.Preferences
         public ProtoId<SpeciesPrototype> Species { get; set; } = SharedHumanoidAppearanceSystem.DefaultSpecies;
 
         [DataField]
+        public string Customspeciesname { get; set; } = string.Empty;
+
+        [DataField]
         public int Age { get; set; } = 18;
 
         [DataField]
@@ -140,6 +143,7 @@ namespace Content.Shared.Preferences
             string name,
             string flavortext,
             string species,
+            string customspeciesname,
             int age,
             Sex sex,
             Gender gender,
@@ -156,6 +160,7 @@ namespace Content.Shared.Preferences
             Name = name;
             FlavorText = flavortext;
             Species = species;
+            Customspeciesname = customspeciesname;
             Age = age;
             Sex = sex;
             Gender = gender;
@@ -177,8 +182,8 @@ namespace Content.Shared.Preferences
             HashSet<ProtoId<AntagPrototype>> antagPreferences,
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
             Dictionary<string, RoleLoadout> loadouts)
-            : this(other.Name, other.FlavorText, other.Species, other.Age, other.Sex, other.Gender, other.BankBalance, other.Appearance, other.SpawnPriority,
-                jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts, other.HideFromPlayerlist) // Wayfarer
+            : this(other.Name, other.FlavorText, other.Species, other.Customspeciesname, other.Age, other.Sex, other.Gender, other.BankBalance, other.Appearance, other.SpawnPriority,
+                jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts)
         {
         }
 
@@ -187,6 +192,7 @@ namespace Content.Shared.Preferences
             : this(other.Name,
                 other.FlavorText,
                 other.Species,
+                other.Customspeciesname,
                 other.Age,
                 other.Sex,
                 other.Gender,
@@ -317,6 +323,10 @@ namespace Content.Shared.Preferences
             return new(this) { Species = species };
         }
 
+        public HumanoidCharacterProfile WithCustomSpeciesName(string customspeciename)
+        {
+            return new(this) { Customspeciesname = customspeciename };
+        }
 
         public HumanoidCharacterProfile WithCharacterAppearance(HumanoidCharacterAppearance appearance)
         {
@@ -583,6 +593,10 @@ namespace Content.Shared.Preferences
             {
                 name = GetName(Species, gender);
             }
+
+            var customspeciename = speciesPrototype.CustomName
+                ? FormattedMessage.RemoveMarkup(Customspeciesname ?? "")[..maxNameLength]
+                : "";
 
             string flavortext;
             var maxFlavorTextLength = configManager.GetCVar(CCVars.MaxFlavorTextLength);
