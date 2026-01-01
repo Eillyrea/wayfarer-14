@@ -170,3 +170,12 @@ Entries:
   id: 6511
   time: '2026-01-01T21:42:09.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/100
+- author: drraccoony
+  changes:
+    - type: Add
+      message: >-
+        Safety Deposit Box added. This allows players to store keepsakes between
+        rounds. Ideally things like named collars and papers.
+  id: 6512
+  time: '2026-01-01T23:00:25.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/90
