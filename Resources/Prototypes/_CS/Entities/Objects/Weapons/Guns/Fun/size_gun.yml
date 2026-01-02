@@ -5,15 +5,15 @@
   description: A specialized energy weapon that can grow or shrink targets. Produced by Parallax Genetech. Toggle modes by activating it in-hand.
   components:
   - type: Sprite
-    sprite: Objects/Weapons/Guns/Battery/taser.rsi  # Replace with custom sprite
+    sprite: _WF/Objects/Weapons/Guns/Battery/sizemanipulator.rsi # can't figure out how to get the battery to show on sprite...
     layers:
     - state: icon
       map: ["enum.GunVisualLayers.Base"]
   - type: Item
-    sprite: Objects/Weapons/Guns/Battery/taser.rsi
+    sprite: _WF/Objects/Weapons/Guns/Battery/sizemanipulator.rsi
     size: Normal
   - type: Clothing
-    sprite: Objects/Weapons/Guns/Battery/taser.rsi
+    sprite: _WF/Objects/Weapons/Guns/Battery/sizemanipulator.rsi
     quickEquip: false
     slots:
     - Belt

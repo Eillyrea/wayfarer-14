@@ -75,7 +75,6 @@
         Heat: 0
     soundHit:
       path: /Audio/_WF/Items/SizeManipulator/grow.ogg # Wayfarer
-      volume: -5
     forceSound: true
   - type: BulletSizeManipulator
     mode: Grow
@@ -115,7 +114,6 @@
         Heat: 0
     soundHit:
       path: /Audio/_WF/Items/SizeManipulator/shrink.ogg # Wayfarer
-      volume: -5
     forceSound: true
   - type: BulletSizeManipulator
     mode: Shrink
