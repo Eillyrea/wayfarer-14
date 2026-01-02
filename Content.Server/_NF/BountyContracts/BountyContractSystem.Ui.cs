@@ -75,6 +75,11 @@ public sealed partial class BountyContractSystem
         return new BountyContractListUiState(newCollection.Value, GetReadableCollections(loaderUid), contracts, isAllowedCreate, isAllowedRemove, GetNetEntity(loaderUid), cartridge.Comp.NotificationsEnabled, contractCounts);
     }
 
+    /// <summary>
+    /// Sets the AuthorIsActive property on each bounty based on whether the author is active
+    /// </summary>
+    /// <param name="bounties">The list of bounties to check</param>
+    /// <returns></returns>
     private List<BountyContract> MarkInactiveBounties(IEnumerable<BountyContract> bounties)
     {
         foreach (var bounty in bounties)
