@@ -24,7 +24,7 @@
     availableModes:
     - SemiAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/taser2.ogg
+      path: /Audio/_WF/Items/SizeManipulator/fire.ogg # Wayfarer
   - type: ProjectileBatteryAmmoProvider
     proto: BulletSizeManipulatorGrow  # Default to grow mode
     fireCost: 100
