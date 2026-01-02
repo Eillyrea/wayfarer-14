@@ -67,9 +67,33 @@
   cooldown: 5
   range:
     min: 0
-    max: 5.0  # Can check out from a distance
+    max: 15.0  # Can check out from a distance
   requiresCanInteract: false
   requiresHands: false
+  allowSelfInteract: false
+  priority: 0
+  categoryKey: interaction
+
+- type: Interaction
+  id: Wave
+  action:
+    !type:NoOpAction
+  effectSuccess:
+    popup: DefaultInteraction
+    effectTarget: TargetThenUser
+    soundPerceivedByOthers: true
+    sound:
+      path: /Audio/Effects/thudswoosh.ogg
+      params:
+        volume: -5
+        variation: 0.15
+  delay: 0
+  cooldown: 2
+  range:
+    min: 0
+    max: 10.0  # Can wave from a distance
+  requiresCanInteract: false
+  requiresHands: true  # Need hands to wave
   allowSelfInteract: false
   priority: 0
   categoryKey: interaction

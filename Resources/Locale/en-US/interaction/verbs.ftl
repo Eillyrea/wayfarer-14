@@ -23,6 +23,22 @@ interaction-CheckOut-success-self-popup = You are really eyeballing {THE($target
 interaction-CheckOut-success-target-popup = You think that {THE($user)} might be checking you out...
 interaction-CheckOut-success-others-popup = {THE($user)} eyes up {THE($target)}.
 
+# Wave Interaction
+interaction-Wave-name = Wave
+interaction-Wave-description = Wave at someone to get their attention or say hello!
+interaction-Wave-success-self-popup = { $hasUsed ->
+    [true] You wave {THE($used)} at {THE($target)}.
+    *[false] You wave at {THE($target)}.
+}
+interaction-Wave-success-target-popup = { $hasUsed ->
+    [true] {THE($user)} waves {THE($used)} at you.
+    *[false] {THE($user)} waves at you.
+}
+interaction-Wave-success-others-popup = { $hasUsed ->
+    [true] {THE($user)} waves {THE($used)} at {THE($target)}.
+    *[false] {THE($user)} waves at {THE($target)}.
+}
+
 # Hug Interaction
 interaction-Hug-name = Hug
 interaction-Hug-description = A hug a day keeps the psychological horrors beyond your comprehension away.

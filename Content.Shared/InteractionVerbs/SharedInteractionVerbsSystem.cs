@@ -1,6 +1,7 @@
 using Content.Shared.ActionBlocker;
 using Content.Shared.DoAfter;
 using Content.Shared.Hands.Components;
+using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Verbs;
@@ -26,6 +27,7 @@ public abstract class SharedInteractionVerbsSystem : EntitySystem
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly INetManager _netManager = default!;
+    [Dependency] private readonly SharedHandsSystem _hands = default!;
 
     protected InteractionAction.VerbDependencies _verbDependencies = default!;
 
@@ -115,7 +117,14 @@ public abstract class SharedInteractionVerbsSystem : EntitySystem
 
     private InteractionVerb? CreateVerb(InteractionVerbPrototype proto, EntityUid user, EntityUid target, bool hasHands, bool canAccess, bool canInteract)
     {
-        var args = new InteractionArgs(user, target, null, canAccess, canInteract, hasHands, null);
+        // Get the active hand item if the user has hands
+        EntityUid? usedItem = null;
+        if (hasHands)
+        {
+            usedItem = _hands.GetActiveItem(user);
+        }
+
+        var args = new InteractionArgs(user, target, usedItem, canAccess, canInteract, hasHands, null);
 
         // Check requirement
         if (proto.Requirement != null && !proto.Requirement.IsMet(args, proto, _verbDependencies))

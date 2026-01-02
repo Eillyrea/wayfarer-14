@@ -1,6 +1,7 @@
 using Content.Server.Chat.Managers;
 using Content.Shared.ActionBlocker;
 using Content.Shared.Hands.Components;
+using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.InteractionVerbs;
 using Content.Shared.Popups;
@@ -17,6 +18,7 @@ public sealed class InteractionVerbsSystem : SharedInteractionVerbsSystem
     [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
     [Dependency] private readonly SharedInteractionSystem _interactionSystem = default!;
     [Dependency] private readonly ActionBlockerSystem _actionBlockerSystem = default!;
+    [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
 
     public override void Initialize()
     {
@@ -32,7 +34,14 @@ public sealed class InteractionVerbsSystem : SharedInteractionVerbsSystem
         var canAccess = _interactionSystem.InRangeUnobstructed(user, target);
         var canInteract = _actionBlockerSystem.CanInteract(user, target);
 
-        var args = new InteractionArgs(user, target, null, canAccess, canInteract, hasHands, null);
+        // Get the active hand item if the user has hands
+        EntityUid? usedItem = null;
+        if (hasHands)
+        {
+            usedItem = _handsSystem.GetActiveItem(user);
+        }
+
+        var args = new InteractionArgs(user, target, usedItem, canAccess, canInteract, hasHands, null);
 
         // Check action
         if (verbProto.Action != null)
@@ -68,23 +77,30 @@ public sealed class InteractionVerbsSystem : SharedInteractionVerbsSystem
     {
         if (effect.Popup != null && PrototypeManager.TryIndex(effect.Popup.Value, out var popupProto))
         {
+            var hasUsed = args.Used != null;
             var selfMessage = Loc.GetString($"interaction-{proto.ID}-{prefix.ToString().ToLower()}-{popupProto.SelfSuffix}-popup",
                 ("user", args.User),
                 ("target", args.Target),
-                ("selfTarget", args.User == args.Target));
+                ("used", args.Used ?? EntityUid.Invalid),
+                ("selfTarget", args.User == args.Target),
+                ("hasUsed", hasUsed));
 
             var targetMessage = popupProto.TargetSuffix != null
                 ? Loc.GetString($"interaction-{proto.ID}-{prefix.ToString().ToLower()}-{popupProto.TargetSuffix}-popup",
                     ("user", args.User),
                     ("target", args.Target),
-                    ("selfTarget", args.User == args.Target))
+                    ("used", args.Used ?? EntityUid.Invalid),
+                    ("selfTarget", args.User == args.Target),
+                    ("hasUsed", hasUsed))
                 : null;
 
             var othersMessage = popupProto.OthersSuffix != null
                 ? Loc.GetString($"interaction-{proto.ID}-{prefix.ToString().ToLower()}-{popupProto.OthersSuffix}-popup",
                     ("user", args.User),
                     ("target", args.Target),
-                    ("selfTarget", args.User == args.Target))
+                    ("used", args.Used ?? EntityUid.Invalid),
+                    ("selfTarget", args.User == args.Target),
+                    ("hasUsed", hasUsed))
                 : null;
 
             // Show popup to user
