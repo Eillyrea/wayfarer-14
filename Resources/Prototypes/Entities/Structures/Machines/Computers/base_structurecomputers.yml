@@ -81,6 +81,19 @@
   - type: Wires
     boardName: wires-board-name-computer
     layoutId: Computer
+  # Mono changes start
+    # ambience
+  - type: SpamEmitSoundRequirePower
+  - type: SpamEmitSound
+    minInterval: 12
+    maxInterval: 36
+    sound:
+      collection: MonoComputerSFX
+      params:
+        volume: -12
+        maxDistance: 4
+        variation: 0.05
+  # Mono changes end
 #
 #     This is overwritten by children, so needs to be defined there
 #  - type: UserInterface
