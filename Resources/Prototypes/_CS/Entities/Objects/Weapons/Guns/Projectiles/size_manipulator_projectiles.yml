@@ -74,7 +74,7 @@
       types:
         Heat: 0
     soundHit:
-      path: /Audio/Effects/radpulse9.ogg
+      path: /Audio/_WF/Items/SizeManipulator/grow.ogg # Wayfarer
     forceSound: true
   - type: BulletSizeManipulator
     mode: Grow
@@ -89,7 +89,7 @@
     sound:
       collection: EnergyMiss
       params:
-        volume: 5
+        volume: 3
   - type: Sprite
     sprite: Objects/Weapons/Guns/Projectiles/projectiles_tg.rsi
     color: "#ff0000"
@@ -113,7 +113,7 @@
       types:
         Heat: 0
     soundHit:
-      path: /Audio/Effects/radpulse9.ogg
+      path: /Audio/_WF/Items/SizeManipulator/shrink.ogg # Wayfarer
     forceSound: true
   - type: BulletSizeManipulator
     mode: Shrink
