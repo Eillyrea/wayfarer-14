@@ -161,15 +161,15 @@
       maxTargetPower: 25000
       targetPower: 15000
       optimalPower: 15000
-      # 45 minutes at max output
-      optimalBurnRate: 0.011111
+      # 90 minutes at max output (halved burn rate)
+      optimalBurnRate: 0.0055555
       # a decent curve
       fuelEfficiencyConstant: 0.95
     - type: SolidFuelGeneratorAdapter
       fuelMaterial: FuelGradePlasma # Frontier: Plasma<FuelGradePlasma
       multiplier: 0.01
     - type: MaterialStorage
-      storageLimit: 3000
+      storageLimit: 6000
       materialWhiteList: [Plasma, FuelGradePlasma, RawPlasma, Skrungle] # Frontier: add FuelGradePlasma, RawPlasma, Scrungle
     - type: PortableGenerator
       startChance: 0.8
@@ -240,15 +240,15 @@
       maxTargetPower: 50000
       targetPower: 30000
       optimalPower: 30000
-      # 45 minutes at full power
-      optimalBurnRate: 0.0111111
+      # 90 minutes at full power (halved burn rate)
+      optimalBurnRate: 0.00555555
       # still decent power curve
       fuelEfficiencyConstant: 0.75
     - type: SolidFuelGeneratorAdapter
       fuelMaterial: FuelGradeUranium # Frontier: Uranium<FuelGradeUranium
       multiplier: 0.01
     - type: MaterialStorage
-      storageLimit: 3000
+      storageLimit: 6000
       materialWhiteList: [Uranium, FuelGradeUranium, RawUranium, Skrungle] # Frontier: add FuelGradeUranium, RawUranium, Skrungle
     - type: PortableGenerator
     - type: UpgradePowerSupplier
@@ -331,8 +331,8 @@
       minTargetPower: 1000
       optimalPower: 6000 # Frontier - 2000<6000
       maxTargetPower: 15000
-      # 30~ minutes at full tank.
-      optimalBurnRate: 0.11111111
+      # 60~ minutes at full tank (halved burn rate)
+      optimalBurnRate: 0.05555555
       # Shallow curve
       fuelEfficiencyConstant: 0.5
     - type: ChemicalFuelGeneratorAdapter
@@ -342,7 +342,7 @@
     - type: SolutionContainerManager
       solutions:
         tank:
-          maxVol: 200 # Frontier - 50<200
+          maxVol: 400 # Frontier - 50<400 (doubled)
     - type: RefillableSolution
       solution: tank
     - type: PortableGenerator

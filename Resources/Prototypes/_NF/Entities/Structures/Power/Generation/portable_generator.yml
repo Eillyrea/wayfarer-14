@@ -19,7 +19,7 @@
   components:
   - type: MaterialStorage
     storage:
-      FuelGradePlasma: 1000
+      FuelGradePlasma: 2000
 
 - type: entity
   parent:
@@ -30,7 +30,7 @@
   components:
   - type: MaterialStorage
     storage:
-      FuelGradeUranium: 1000
+      FuelGradeUranium: 2000
 
 - type: entity
   parent:
@@ -42,10 +42,10 @@
     - type: SolutionContainerManager
       solutions:
         tank:
-          maxVol: 200 # Frontier - 50<200
+          maxVol: 400 # Frontier - 50<400 (doubled)
           reagents:
           - ReagentId: WeldingFuel
-            Quantity: 70 # Frontier - 35<70
+            Quantity: 140 # Frontier - 35<140 (doubled)
 
 - type: entity
   name: D-K portable generator
