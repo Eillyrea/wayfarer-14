@@ -90,7 +90,7 @@
           True: { state: icon-open }
           False: { state: icon }
   - type: Item
-    size: Normal
+    size: Large
   - type: Storage
     maxItemSize: Large
     grid:
