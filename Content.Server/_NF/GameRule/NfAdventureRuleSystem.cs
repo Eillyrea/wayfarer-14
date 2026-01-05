@@ -516,7 +516,8 @@ public sealed class NFAdventureRuleSystem : GameRuleSystem<NFAdventureRuleCompon
                 {
                     { "username", username },
                     { "characterName", storyData.CharacterName },
-                    { "story", storyData.Story }
+                    { "story", storyData.Story },
+                    { "roleName", storyData.RoleName }
                 };
                 
                 // Add profileId if available

@@ -50,5 +50,11 @@ public sealed class DCCVars
     ///    Maximum number of characters in objective summaries.
     /// </summary>
     public static readonly CVarDef<int> MaxObjectiveSummaryLength =
-        CVarDef.Create("game.max_objective_summary_length", 256, CVar.SERVER | CVar.REPLICATED);
+        CVarDef.Create("game.max_objective_summary_length", 1024, CVar.SERVER | CVar.REPLICATED);
+
+    /// <summary>
+    ///    Minimum playtime in minutes required to write player stories.
+    /// </summary>
+    public static readonly CVarDef<int> MinPlayerStoryPlaytimeMinutes =
+        CVarDef.Create("game.min_player_story_playtime_minutes", 60, CVar.SERVER | CVar.REPLICATED);
 }

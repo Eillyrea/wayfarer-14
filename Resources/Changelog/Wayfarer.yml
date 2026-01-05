@@ -286,3 +286,10 @@ Entries:
   id: 6525
   time: '2026-01-04T06:45:58.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/120
+- author: drraccoony
+  changes:
+    - type: Tweak
+      message: All players can write player stories now. Not just pirates.
+  id: 6526
+  time: '2026-01-05T02:15:48.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/127

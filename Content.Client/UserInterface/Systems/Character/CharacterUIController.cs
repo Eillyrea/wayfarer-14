@@ -182,17 +182,14 @@ public sealed class CharacterUIController : UIController, IOnStateEntered<Gamepl
             _window.Objectives.AddChild(objectiveControl);
         }
         // Begin DeltaV Additions - Custom objective summary
-        if (objectives.Count > 0)
+        var button = new Button
         {
-            var button = new Button
-            {
-                Text = Loc.GetString("custom-objective-button-text"),
-                Margin = new Thickness(0, 10, 0, 10)
-            };
-            button.OnPressed += _ => _objective.OpenWindow();
+            Text = Loc.GetString("custom-objective-button-text"),
+            Margin = new Thickness(0, 10, 0, 10)
+        };
+        button.OnPressed += _ => _objective.OpenWindow();
 
-            _window.Objectives.AddChild(button);
-        }
+        _window.Objectives.AddChild(button);
         // End DeltaV Additions
 
         if (briefing != null)

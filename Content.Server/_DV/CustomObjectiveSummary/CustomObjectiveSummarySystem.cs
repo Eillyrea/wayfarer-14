@@ -3,12 +3,15 @@ using System.Text;
 using Content.Server.Administration.Logs;
 using Content.Server.Database;
 using Content.Server.Objectives;
+using Content.Server.Players.PlayTimeTracking;
 using Content.Server.Preferences.Managers;
 using Content.Shared._DV.CCVars;
 using Content.Shared._DV.CustomObjectiveSummary;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
 using Content.Shared.Mind;
+using Content.Shared.Players.PlayTimeTracking;
+using Content.Shared.Roles.Jobs;
 using Robust.Shared.Configuration;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
@@ -27,8 +30,12 @@ public sealed class CustomObjectiveSummarySystem : EntitySystem
     [Dependency] private readonly ObjectivesSystem _objectives = default!; // Frontier
     [Dependency] private readonly IServerPreferencesManager _prefsManager = default!; // Wayfarer
     [Dependency] private readonly IServerDbManager _db = default!; // Wayfarer
+    [Dependency] private readonly PlayTimeTrackingManager _playtime = default!; // Wayfarer
+    [Dependency] private readonly SharedJobSystem _jobs = default!; // Wayfarer
+    [Dependency] private readonly SharedGameTicker _gameTicker = default!; // Wayfarer
 
     private int _maxLengthSummaryLength; // Frontier: moved from ObjectiveSystem
+    private int _minPlaytimeMinutes; // Wayfarer: minimum playtime to write stories
     private Dictionary<NetUserId, PlayerStory> _stories = new(); // Frontier: store one story per user per round
 
     public override void Initialize()
@@ -40,6 +47,7 @@ public sealed class CustomObjectiveSummarySystem : EntitySystem
         _net.RegisterNetMessage<CustomObjectiveClientSetObjective>(OnCustomObjectiveFeedback);
 
         Subs.CVar(_cfg, DCCVars.MaxObjectiveSummaryLength, len => _maxLengthSummaryLength = len, true); // Frontier: moved from ObjectiveSystem
+        Subs.CVar(_cfg, DCCVars.MinPlayerStoryPlaytimeMinutes, minutes => _minPlaytimeMinutes = minutes, true); // Wayfarer
     }
 
     private async void OnCustomObjectiveFeedback(CustomObjectiveClientSetObjective msg)
@@ -47,11 +55,21 @@ public sealed class CustomObjectiveSummarySystem : EntitySystem
         if (!_mind.TryGetMind(msg.MsgChannel.UserId, out var mind) || mind is not { } mindEnt)
             return;
 
-        if (mind.Value.Comp.Objectives.Count == 0)
+        // Check round playtime requirement
+        if (!_player.TryGetSessionById(msg.MsgChannel.UserId, out var session))
+            return;
+
+        var roundDuration = _gameTicker.RoundDuration();
+        if (roundDuration.TotalMinutes < _minPlaytimeMinutes)
             return;
 
         // Get plain character name without markup
         var characterName = mind.Value.Comp.CharacterName ?? Loc.GetString("custom-objective-unknown-name");
+        
+        // Get job/role name
+        var roleName = "Unknown";
+        if (_jobs.MindTryGetJob(mind.Value, out var job))
+            roleName = Loc.GetString(job.Name);
         
         // Get profile ID for this character
         int? profileId = null;
@@ -67,10 +85,11 @@ public sealed class CustomObjectiveSummarySystem : EntitySystem
             story.CharacterName = characterName;
             story.Story = msg.Summary;
             story.ProfileId = profileId;
+            story.RoleName = roleName;
         }
         else
         {
-            _stories[msg.MsgChannel.UserId] = new PlayerStory(characterName, msg.Summary, profileId);
+            _stories[msg.MsgChannel.UserId] = new PlayerStory(characterName, msg.Summary, profileId, roleName);
         }
 
         // Ensure that the current mind has their summary setup (so they can come back to it if disconnected)
@@ -85,14 +104,15 @@ public sealed class CustomObjectiveSummarySystem : EntitySystem
     private void OnEvacShuttleLeft(EvacShuttleLeftEvent args)
     {
         var allMinds = _mind.GetAliveHumans();
+        var roundDuration = _gameTicker.RoundDuration();
 
         foreach (var mind in allMinds)
         {
-            // Only send the popup to people with objectives.
-            if (mind.Comp.Objectives.Count == 0)
+            if (!_player.TryGetSessionById(mind.Comp.UserId, out var session))
                 continue;
 
-            if (!_player.TryGetSessionById(mind.Comp.UserId, out var session))
+            // Check round playtime requirement
+            if (roundDuration.TotalMinutes < _minPlaytimeMinutes)
                 continue;
 
             RaiseNetworkEvent(new CustomObjectiveSummaryOpenMessage(), session);
@@ -135,11 +155,11 @@ public sealed class CustomObjectiveSummarySystem : EntitySystem
     }
 
     // Frontier: get raw player stories for database storage
-    public IReadOnlyDictionary<NetUserId, (string CharacterName, string Story, int? ProfileId)> GetPlayerStories()
+    public IReadOnlyDictionary<NetUserId, (string CharacterName, string Story, int? ProfileId, string RoleName)> GetPlayerStories()
     {
         return _stories.ToDictionary(
             kvp => kvp.Key,
-            kvp => (kvp.Value.CharacterName, kvp.Value.Story, kvp.Value.ProfileId)
+            kvp => (kvp.Value.CharacterName, kvp.Value.Story, kvp.Value.ProfileId, kvp.Value.RoleName)
         );
     }
 
@@ -148,11 +168,12 @@ public sealed class CustomObjectiveSummarySystem : EntitySystem
         _stories.Clear();
     }
 
-    sealed class PlayerStory(string characterName, string story, int? profileId = null)
+    sealed class PlayerStory(string characterName, string story, int? profileId = null, string roleName = "Unknown")
     {
         public string CharacterName = characterName;
         public string Story = story;
         public int? ProfileId = profileId;
+        public string RoleName = roleName;
     }
     // End Frontier
 }
