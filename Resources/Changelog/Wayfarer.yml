@@ -309,3 +309,12 @@ Entries:
   id: 6528
   time: '2026-01-06T18:47:32.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/142
+- author: Eillyrea
+  changes:
+    - type: Add
+      message: Harpy Flight
+    - type: Remove
+      message: Harpy Can't Fly Accusations
+  id: 6529
+  time: '2026-01-06T20:03:43.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/141
