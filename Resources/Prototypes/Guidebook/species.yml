@@ -18,9 +18,8 @@
     - Felinid # DeltaV
     - Oni # DeltaV
     - Feroxi # Flooftier
-    # - Rodentia # Flooftier - Commented out until guide entry is added
+    - Rodentia # Flooftier - Commented out until guide entry is added
     # - Resomi # Commented out until guide entry is added
-    # Den addition
     - Chitinid # DeltaV
     - Tajaran #EE
 
@@ -75,15 +74,10 @@
   name: species-name-rodentia
   text: "/ServerInfo/Guidebook/Mobs/_DV/Rodentia.xml"
 
-- type: guideEntry
-  id: Resomi
-  name: species-name-resomi
-  text: "/ServerInfo/Guidebook/Mobs/Resomi.xml"
-
-- type: guideEntry
-  id: Harpy
-  name: species-name-harpy
-  text: "/ServerInfo/Guidebook/Mobs/Harpy.xml"
+#- type: guideEntry
+#  id: Resomi
+#  name: species-name-resomi
+#  text: "/ServerInfo/Guidebook/Mobs/Resomi.xml"
 
 - type: guideEntry
   id: Tajaran

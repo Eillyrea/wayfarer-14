@@ -13,8 +13,8 @@
       fix1:
         shape:
           !type:PhysShapeCircle
-          radius: 0.28
-        density: 140
+          radius: 0.35
+        density: 185
         restitution: 0.0
         mask:
         - MobMask
@@ -35,15 +35,6 @@
     spawned:
     - id: FoodMeatHuman
       amount: 5
-  - type: TemperatureProtection # fur is a good insulator, actually
-    coefficient: 0.1
-  - type: Flammable
-    fireStackIncreaseMultiplier: 1.35 # until you light it up, cuz it's oily too
-  - type: BlackAndWhiteOverlay
-  - type: Flashable
-    eyeDamageChance: 0.3
-    eyeDamage: 1
-    durationMultiplier: 1.5
   - type: MeleeWeapon
     soundHit:
       collection: Punch
@@ -59,8 +50,8 @@
       types:
         Blunt: 1
   - type: Stamina
-    critThreshold: 85
-    decay: 2.55 # 3 base decay multiplied by 0.85 = 2.55
+    critThreshold: 100 # CS - in line with humans
+    decay: 3 # CS - in line with humans
   - type: TypingIndicator
     proto: felinid
   - type: PseudoItem
@@ -77,13 +68,11 @@
       Unsexed: MaleFelinid
   - type: Felinid # real
   - type: NoShoesSilentFootsteps
-  - type: PreventableStepTriggerComponent
   - type: Tag
     tags:
     - CanPilot
     - FootstepSound
     - DoorBumpOpener
-    - FelinidEmotes
   - type: Temperature
     coldDamageThreshold: 230 # -25 degrees centigrade, like 12 degrees below normal
     currentTemperature: 312  # Body temperature of cat
@@ -92,6 +81,14 @@
         Cold: 0.65 # in line with cold resist
   - type: ThermalRegulator
     normalBodyTemperature: 311.76
+  # CS - tweaks and edits
+  - type: ItemCougher
+    item: Hairball
+    action: ActionHairball
+    coughPopup: hairball-cough
+  - type: TallWhitelist # felinid parity
+    scale: 1
+  # CS - end
 
 
 - type: entity
