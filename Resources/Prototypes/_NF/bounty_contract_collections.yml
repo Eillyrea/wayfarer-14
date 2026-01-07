@@ -10,22 +10,75 @@
   - HeadOfPersonnel
   - HeadOfSecurity
   categories:
+  - Announcement
   - Criminal
+  - Buy
+  - Sell
+  - Barter
   - Vacancy
+  - JobSeeker
   - Construction
   - Service
+  - Advertisement
+  - Social
   - Other
 
 - type: bountyContractCollection
-  id: Public
+  id: Shopping
   order: 2
+  notificationType: PDA
+  name: bounty-contract-collection-name-items
+  deleteAccess:
+  - HeadOfPersonnel
+  - HeadOfSecurity
+  categories:
+  - Buy
+  - Sell
+  - Barter
+
+- type: bountyContractCollection
+  id: Jobs
+  order: 3
+  notificationType: PDA
+  name: bounty-contract-collection-name-jobs
+  deleteAccess:
+  - HeadOfPersonnel
+  - HeadOfSecurity
+  categories:
+  - Vacancy
+  - JobSeeker
+
+- type: bountyContractCollection
+  id: Services
+  order: 4
+  notificationType: PDA
+  name: bounty-contract-collection-name-services
+  deleteAccess:
+  - HeadOfPersonnel
+  - HeadOfSecurity
+  categories:
+  - Construction
+  - Service
+
+- type: bountyContractCollection
+  id: Public
+  order: 5
   notificationType: PDA
   name: bounty-contract-collection-name-public
   deleteAccess:
   - HeadOfPersonnel
   - HeadOfSecurity
   categories:
-  - Vacancy
-  - Construction
-  - Service
+  - Advertisement
+  - Social
+
+- type: bountyContractCollection
+  id: Other
+  order: 6
+  notificationType: PDA
+  name: bounty-contract-collection-name-other
+  deleteAccess:
+  - HeadOfPersonnel
+  - HeadOfSecurity
+  categories:
   - Other

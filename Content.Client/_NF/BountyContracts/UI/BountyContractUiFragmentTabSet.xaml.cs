@@ -22,10 +22,17 @@ public sealed partial class BountyContractUiFragmentTabSet : TabContainer
     }
 
     // Note: no safety checks on tabIndex range.
-    public bool SetTabCollection(int tabIndex, ProtoId<BountyContractCollectionPrototype> collection)
+    public bool SetTabCollection(int tabIndex, ProtoId<BountyContractCollectionPrototype> collection, int totalContracts)
     {
+        var countString = totalContracts switch
+        {
+            <= 0 => "",
+            >= 0 and <= 99 => $" ({totalContracts})",
+            >= 100 => "(∞)" // Prevent screen overflow in extreme cases, shouldn't realistically happen...
+        }
+            ;
         if (_proto.TryIndex(collection, out var collectionProto))
-            SetTabTitle(tabIndex, Loc.GetString(collectionProto.Name));
+            SetTabTitle(tabIndex, Loc.GetString(collectionProto.Name) + countString);
 
         return _tabsToCollections.TryAdd(tabIndex, collection);
     }

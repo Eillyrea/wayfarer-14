@@ -8,7 +8,12 @@
                 <Label Text="{Loc 'bounty-contracts-ui-create-category'}" MinWidth="80"/>
                 <OptionButton Name="CategorySelector" HorizontalExpand="True" />
             </BoxContainer>
-            <BoxContainer Orientation="Horizontal" Margin="4,4,4,4">
+            <BoxContainer Name="TitleContainer" Visible="False" Orientation="Horizontal" Margin="4,4,4,4">
+                <Label Name="TitleLabel" Text="{Loc 'bounty-contracts-ui-create-title'}" MinWidth="80"/>
+                <LineEdit Name="TitleEdit" PlaceHolder="{Loc 'bounty-contracts-ui-create-title-placeholder'}"
+                          HorizontalExpand="True" Visible="True"/>
+            </BoxContainer>
+            <BoxContainer Name="NameContainer" Orientation="Horizontal" Margin="4,4,4,4">
                 <Label Text="{Loc 'bounty-contracts-ui-create-name'}" MinWidth="80"/>
                 <OptionButton Name="NameSelector" HorizontalExpand="True"/>
                 <LineEdit Name="NameEdit" PlaceHolder="{Loc 'bounty-contracts-ui-create-name-placeholder'}"
@@ -22,7 +27,7 @@
                 <Label Name="DnaLabel" Text="{Loc 'bounty-contracts-ui-create-dna-unknown'}"
                           HorizontalExpand="True"/>
             </BoxContainer>
-            <BoxContainer Orientation="Horizontal" Margin="4,4,4,4">
+            <BoxContainer Name="VesselContainer" Orientation="Horizontal" Margin="4,4,4,4">
                 <Label Text="{Loc 'bounty-contracts-ui-create-vessel'}" MinWidth="80"/>
                 <OptionButton Name="VesselSelector" HorizontalExpand="True"/>
                 <LineEdit Name="VesselEdit" PlaceHolder="{Loc 'bounty-contracts-ui-create-vessel-placeholder'}"
@@ -31,11 +36,15 @@
                 <Button Name="CustomVesselButton" Text="{Loc 'bounty-contracts-ui-create-custom'}"
                         ToggleMode="True"/>
             </BoxContainer>
-            <BoxContainer Orientation="Horizontal" Margin="4,4,4,4">
-                <Label Text="{Loc 'bounty-contracts-ui-create-reward'}" MinWidth="80"/>
-                <Label Text="{Loc 'bounty-contracts-ui-create-reward-currency'}"/>
+            <BoxContainer Name="RewardContainer" Orientation="Horizontal" Margin="4,4,4,4">
+                <Label MinWidth="80" Text="{Loc 'bounty-contracts-ui-create-reward'}"/>
+                <Label Name="RewardLabel" Text="{Loc 'bounty-contracts-ui-create-reward-currency'}"/>
                 <Control MinSize="8 0" />
                 <LineEdit Name="RewardEdit" MinWidth="80"/>
+                <Control MinSize="16 0"/>
+                <Label MinWidth="80" Text="{Loc 'bounty-contracts-ui-create-contact'}"/>
+                <Control MinSize="8 0"/>
+                <LineEdit Name="ContactEdit" MinWidth="200" PlaceHolder="{Loc bounty-contracts-ui-create-contact-placeholder}"/>
             </BoxContainer>
             <BoxContainer Orientation="Vertical" Margin="4,4,4,4"
                           VerticalExpand="True" >

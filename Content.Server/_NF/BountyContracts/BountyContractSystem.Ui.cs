@@ -1,4 +1,3 @@
-using System.Linq;
 using Content.Server._NF.SectorServices;
 using Content.Server.StationRecords;
 using Content.Shared._NF.BountyContracts;
@@ -7,8 +6,11 @@ using Content.Shared.CartridgeLoader;
 using Content.Shared.IdentityManagement;
 using Content.Shared.PDA;
 using Content.Shared.StationRecords;
+using Robust.Shared.Enums;
+using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using System.Linq;
 
 namespace Content.Server._NF.BountyContracts;
 
@@ -16,6 +18,9 @@ public sealed partial class BountyContractSystem
 {
     [Dependency] SectorServiceSystem _sectorService = default!;
     [Dependency] IGameTiming _timing = default!;
+    [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
+    [Dependency] private readonly EntityManager _entityManager = default!;
+
     private void InitializeUi()
     {
         SubscribeLocalEvent<BountyContractsCartridgeComponent, CartridgeUiReadyEvent>(OnUiReady);
@@ -57,7 +62,7 @@ public sealed partial class BountyContractSystem
         if (collection != null)
             cartridge.Comp.Collection = collection;
 
-        var contracts = GetPermittedContracts(cartridge, loaderUid, out var newCollection).ToList();
+        var contracts = MarkInactiveBounties(GetPermittedContracts(cartridge, loaderUid, out var newCollection, out var contractCounts));
         if (newCollection == null)
             return null;
 
@@ -67,7 +72,41 @@ public sealed partial class BountyContractSystem
         if (cartridge.Comp.Collection != newCollection)
             cartridge.Comp.Collection = newCollection;
 
-        return new BountyContractListUiState(newCollection.Value, GetReadableCollections(loaderUid), contracts, isAllowedCreate, isAllowedRemove, GetNetEntity(loaderUid), cartridge.Comp.NotificationsEnabled);
+        return new BountyContractListUiState(newCollection.Value, GetReadableCollections(loaderUid), contracts, isAllowedCreate, isAllowedRemove, GetNetEntity(loaderUid), cartridge.Comp.NotificationsEnabled, contractCounts);
+    }
+
+    /// <summary>
+    /// Sets the AuthorIsActive property on each bounty based on whether the author is active
+    /// </summary>
+    /// <param name="bounties">The list of bounties to check</param>
+    /// <returns></returns>
+    private List<BountyContract> MarkInactiveBounties(IEnumerable<BountyContract> bounties)
+    {
+        foreach (var bounty in bounties)
+        {
+            bounty.AuthorIsActive = false;
+
+            var pda = _entityManager.GetEntity(bounty.AuthorUid);
+            TryComp<TransformComponent>(pda, out var pdaTransform);
+            if (pdaTransform != null)
+            {
+                var owner = pdaTransform.ParentUid;
+                if (owner.Id > 1)
+                {
+                    foreach (var session in _playerManager.Sessions)
+                    {
+                        if (session.AttachedEntity == owner &&
+                            !(session.Status is SessionStatus.Disconnected or SessionStatus.Zombie))
+                        {
+                            // Session was active
+                            bounty.AuthorIsActive = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return bounties.ToList();
     }
 
     private BountyContractCreateUiState GetCreateState(Entity<BountyContractsCartridgeComponent> cartridge, ProtoId<BountyContractCollectionPrototype> collection)
@@ -159,7 +198,7 @@ public sealed partial class BountyContractSystem
         var author = Identity.Name(args.Actor, EntityManager);
 
         // Try to post a bounty. If it works, update the requester's UI.
-        if (TryCreateBountyContract(c.Collection, c.Category, c.Name, c.Reward, loader, args.Actor, c.Description, c.Vessel, c.DNA, author) != null)
+        if (TryCreateBountyContract(c.Collection, c.Category, c.Name, c.Reward, loader, args.Actor, c.Description, c.Vessel, c.DNA, author, c.Title, c.Contact) != null)
         {
             cartridge.Comp.CreateEnabled = false;
             cartridge.Comp.NextCreate = _timing.CurTime + TimeSpan.FromSeconds(cartridge.Comp.CreateCooldown);

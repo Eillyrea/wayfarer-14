@@ -157,7 +157,9 @@ public sealed partial class BountyContractSystem : SharedBountyContractSystem
         string? description = null,
         string? vessel = null,
         string? dna = null,
-        string? author = null)
+        string? author = null,
+        string? title = null,
+        string? contact = null)
     {
         var data = GetContracts();
         if (data == null
@@ -178,7 +180,7 @@ public sealed partial class BountyContractSystem : SharedBountyContractSystem
         // create a new contract
         var contractId = data.LastId++;
         var contract = new BountyContract(contractId, category, name, reward, GetNetEntity(authorUid),
-            dna, vessel, description, author);
+            dna, vessel, description, author, title, contact, DateTime.Now);
 
         // try to save it
         if (!contracts.TryAdd(contractId, contract))
@@ -194,6 +196,8 @@ public sealed partial class BountyContractSystem : SharedBountyContractSystem
         LocId announcement = "bounty-contracts-announcement-generic-create";
         if (CategoriesMeta.TryGetValue(category, out var categoryMeta) && categoryMeta.Announcement != null)
             announcement = categoryMeta.Announcement.Value;
+        if (string.IsNullOrEmpty(title))
+            announcement += "-no-title";
 
         // Generate a notification
         if (notificationType == BountyContractNotificationType.PDA)
@@ -203,7 +207,7 @@ public sealed partial class BountyContractSystem : SharedBountyContractSystem
                 ? $"{contract.Name} ({contract.Vessel})"
                 : contract.Name;
             var msg = Loc.GetString(announcement,
-                ("target", target), ("reward", BankSystemExtensions.ToSpesoString(contract.Reward)));
+                ("target", target), ("reward", BankSystemExtensions.ToSpesoString(contract.Reward)), ("title", title ?? "???"));
 
             var pdaList = EntityQueryEnumerator<CartridgeLoaderComponent>();
             while (pdaList.MoveNext(out var loaderUid, out var loaderComp))
@@ -222,12 +226,12 @@ public sealed partial class BountyContractSystem : SharedBountyContractSystem
                 ? $"{contract.Name} ({contract.Vessel})"
                 : contract.Name;
             var msg = Loc.GetString(announcement,
-                ("target", target), ("reward", BankSystemExtensions.ToSpesoString(contract.Reward)));
+                ("target", target), ("reward", BankSystemExtensions.ToSpesoString(contract.Reward)), ("title", title ?? "???"));
             var color = Color.FromHex("#D7D7BE");
             _chat.DispatchGlobalAnnouncement(msg, sender, false, colorOverride: color);
         }
 
-        _adminLog.Add(LogType.BountyContractCreated, $"{ToPrettyString(actor):actor} posted a {category} bounty with ID {contractId} in the {collection} collection for ${reward}: {description ?? ""}");
+        _adminLog.Add(LogType.BountyContractCreated, $"{ToPrettyString(actor):actor} posted a {category} bounty with ID {contractId} and Title {title} in the {collection} collection with Contact {contact} for ${reward}: {description ?? ""}");
 
         return contract;
     }
@@ -255,16 +259,26 @@ public sealed partial class BountyContractSystem : SharedBountyContractSystem
     /// <summary>
     ///     Try to get all bounty contracts available within a particular collection.
     /// </summary>
-    public IEnumerable<BountyContract> GetPermittedContracts(Entity<BountyContractsCartridgeComponent> cartridge, EntityUid loader, out ProtoId<BountyContractCollectionPrototype>? newCollection)
+    public IEnumerable<BountyContract> GetPermittedContracts(Entity<BountyContractsCartridgeComponent> cartridge, EntityUid loader, out ProtoId<BountyContractCollectionPrototype>? newCollection, out Dictionary<ProtoId<BountyContractCollectionPrototype>, int> contractCounts)
     {
         newCollection = null;
         var data = GetContracts();
+        contractCounts = new();
 
         if (data == null || data.Contracts == null)
             return Enumerable.Empty<BountyContract>();
 
+        foreach (var collection in data.Contracts.Keys)
+        {
+            if (HasReadAccess(loader, collection, data))
+            {
+                contractCounts[collection] = data.Contracts[collection].Count;
+            }
+        }
+
         if (cartridge.Comp.Collection != null)
         {
+            // Cartridge has a collection selected, load that one
             if (data.Contracts.TryGetValue(cartridge.Comp.Collection.Value, out var contracts)
                 && HasReadAccess(loader, cartridge.Comp.Collection.Value, data))
             {
@@ -272,13 +286,16 @@ public sealed partial class BountyContractSystem : SharedBountyContractSystem
                 return contracts.Values;
             }
         }
-
-        foreach (var collection in data.Contracts.Keys)
+        else
         {
-            if (HasReadAccess(loader, collection, data))
+            // No collection selected, load the first one with read access
+            foreach (var collection in data.OrderedCollections)
             {
-                newCollection = collection;
-                return data.Contracts[collection].Values;
+                if (HasReadAccess(loader, collection, data))
+                {
+                    newCollection = collection;
+                    return data.Contracts[collection].Values;
+                }
             }
         }
 

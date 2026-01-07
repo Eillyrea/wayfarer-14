@@ -58,7 +58,7 @@ public sealed partial class BountyContractUi : UIFragment
         create.OnCancelPressed += OnCancelCreatePressed;
         create.OnCreatePressed += OnTryCreatePressed;
 
-        create.SetPossibleTargets(state.Targets);
+        create.SetPossibleTargets(state.Targets, _userInterface?.Owner ?? EntityUid.Invalid);
         create.SetVessels(state.Vessels);
 
         _fragment?.AddChild(create);
@@ -69,7 +69,6 @@ public sealed partial class BountyContractUi : UIFragment
         UnloadPreviousState();
         var tabs = new BountyContractUiFragmentTabSet();
         tabs.OnSelectCollection += OnSelectCollection;
-        state.Collections.Reverse(); // invert order, show latest first
         foreach (var collection in state.Collections)
         {
             int newTabIndex = tabs.Children.Count();
@@ -86,13 +85,15 @@ public sealed partial class BountyContractUi : UIFragment
                 tabs.Children.Add(list);
 
                 tabs.CurrentTab = newTabIndex;
-                tabs.SetTabCollection(newTabIndex, collection);
+                state.ContractCounts.TryGetValue(collection, out var count);
+                tabs.SetTabCollection(newTabIndex, collection, count);
             }
             else
             {
                 var placeholder = new BountyContractUiFragmentListPlaceholder();
                 tabs.Children.Add(placeholder);
-                tabs.SetTabCollection(newTabIndex, collection);
+                state.ContractCounts.TryGetValue(collection, out var count);
+                tabs.SetTabCollection(newTabIndex, collection, count);
             }
         }
 
