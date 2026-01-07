@@ -365,3 +365,10 @@ Entries:
   id: 6534
   time: '2026-01-07T17:18:21.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/154
+- author: Eillyrea
+  changes:
+    - type: Add
+      message: Plants filter CO2 for safe honkshoo
+  id: 6535
+  time: '2026-01-07T17:33:44.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/161
