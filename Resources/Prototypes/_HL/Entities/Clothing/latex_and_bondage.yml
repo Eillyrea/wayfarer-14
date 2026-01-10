@@ -64,7 +64,7 @@
   - type: Sprite
     sprite: _HL/Clothing/Bondage/anklecuffs.rsi
   - type: Clothing
-    sprite: _HL/Clothing/Bondage/canklecuffs.rsi
+    sprite: _HL/Clothing/Bondage/anklecuffs.rsi
     equipDelay: 3
     unequipDelay: 3
   - type: SelfUnremovableClothing

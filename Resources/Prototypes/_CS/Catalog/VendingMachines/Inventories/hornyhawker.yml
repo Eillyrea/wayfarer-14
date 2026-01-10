@@ -21,10 +21,10 @@
     # TwistTies: 15
     # ClothingOuterStraightjacketBodysuit: 24
     # Whips & Paddles
-    # WhipPink: 25
-    # WhipTeal: 25
-    # SpankPinkPaddle: 25
-    # SpankTealPaddle: 25
+    WhipPink: 25
+    WhipTeal: 25
+    SpankPinkPaddle: 25
+    SpankTealPaddle: 25
     # Sexy Outfits
     # CoolCoyoteClothesSexyMaid: 25
     # CoolCoyoteClothesSexyclown: 25
@@ -45,12 +45,12 @@
     # ClothingHandsBeeWarmers: 25
     # ClothingHandsCoderWarmers: 25
     # Toys - Vibrators
-    # LewdVibeGreen: 25
-    # LewdVibePink: 25
-    # LewdVibeRed: 25
-    # LewdVibeTeal: 25
-    # LewdVibeYellow: 25
-    # LewdWand: 25
+    LewdVibeGreen: 25
+    LewdVibePink: 25
+    LewdVibeRed: 25
+    LewdVibeTeal: 25
+    LewdVibeYellow: 25
+    LewdWand: 25
     # Toys - Fleshlights
     # LewdFleshlightGreen: 25
     # LewdFleshlightPink: 25
@@ -70,12 +70,21 @@
     CandleBlack: 25
     CandleRedSmall: 25
     CandleBlackSmall: 25
+    # Bondage Gear
+    BlindfoldBDSM: 20
+    ClothingMaskMuzzle: 20
+    WristCuffs: 20
+    AnkleCuffs: 20
+    BondageMitts: 20
+    BondageArmSleeve: 20
+    ClothingShoesBase: 20
+    BondageHarness: 20
     # Lubricants
     DrinkSpaceLube: 5
     # Snacks
     FoodTinPeachesMaint: 10
     # Weapons
-    # WeaponSizeManipulator: 5
+    WeaponSizeManipulator: 5
   contrabandInventory:
     # Snacks
     FoodTinPeachesMaint: 10
