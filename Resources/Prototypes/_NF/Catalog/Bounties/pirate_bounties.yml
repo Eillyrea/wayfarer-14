@@ -8,14 +8,14 @@
     amount: 3
     id: Mail
 
-- type: pirateBounty
-  id: PirateBountyPDA
-  reward: 5
-  description: pirate-bounty-description-generic
-  entries:
-  - name: pirate-bounty-item-pda
-    amount: 3
-    id: Pda
+# - type: pirateBounty # Wayfarer: Removed as its annoying
+#   id: PirateBountyPDA
+#   reward: 5
+#   description: pirate-bounty-description-generic
+#   entries:
+#   - name: pirate-bounty-item-pda
+#     amount: 3
+#     id: Pda
 
 - type: pirateBounty
   id: PirateBountyExtinguisher
