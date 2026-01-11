@@ -439,6 +439,22 @@
       whitelist:
         - Sheriff
 
+- type: listing # Wayfarer: Added Forensic Scanner
+  id: UplinkSecurityForensicScanner
+  name:  uplink-security-forensicscanner-name
+  description: uplink-security-forensicscanner-desc
+  productEntity: ForensicScanner
+  icon: { sprite: _NF/Objects/Devices/forensic_scanner.rsi, state: forensicnew }
+  cost:
+    FrontierUplinkCoin: 2
+  categories:
+    - UplinkSecurityUtility
+  conditions:
+    - !type:StoreWhitelistCondition
+      whitelist:
+        tags:
+          - SecurityUplink
+
 - type: listing
   id: UplinkSecurityEmpRocket
   name:  uplink-security-emprocket-name

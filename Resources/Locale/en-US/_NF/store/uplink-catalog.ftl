@@ -89,6 +89,9 @@ uplink-security-techfab-desc = A circuit board for a NFSD Techfab. Allows the pr
 uplink-security-key-name = NFSD Encryption Keys
 uplink-security-key-desc = A box of 4 encryption keys that give access to the NFSD radio channel.
 
+uplink-security-forensicscanner-name = Forensic Scanner
+uplink-security-forensicscanner-desc = A handheld device that can scan objects for fingerprints, fibers, DNA, and residue. Essential for crime scene investigation.
+
 uplink-security-emprocket-name = EMP Rocket
 uplink-security-emprocket-desc = An EMP rocket for the GSW rocket launcher.
 
