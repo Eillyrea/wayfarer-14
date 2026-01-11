@@ -480,3 +480,26 @@ Entries:
   id: 6545
   time: '2026-01-10T19:13:52.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/192
+- author: drraccoony
+  changes:
+    - type: Tweak
+      message: Detective, Brigmedic and Pirate starting job counts.
+    - type: Tweak
+      message: Nanochat now works long distance
+    - type: Tweak
+      message: OOC Freetext is now 2048 character limit (from 1000)
+    - type: Tweak
+      message: Roleplay Payout Prints to chat
+    - type: Tweak
+      message: Mobs that leave their event grid will no longer explode
+    - type: Tweak
+      message: Broadband (common) radios are now 6000 meters (from 3000)
+    - type: Fix
+      message: IPC's can now interact verb (kiss, wave, hug)
+    - type: Fix
+      message: Reptilians can now pilot shuttles
+    - type: Remove
+      message: Pirate PDA Bounty
+  id: 6546
+  time: '2026-01-11T22:44:11.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/195
