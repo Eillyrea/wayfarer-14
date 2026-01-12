@@ -198,39 +198,4 @@ public sealed partial class TriggerSystem
         };
         args.Verbs.Add(verb);
     }
-
-    private void OnVerbRelay(EntityUid uid,
-        TriggerOnMobstateChangeComponent component,
-        ImplantRelayEvent<GetVerbsEvent<Verb>> args)
-    {
-        OnGetVerbs(uid, component, args.Event); 
-    }
-
-    private void OnGetVerbs(EntityUid uid,
-        TriggerOnMobstateChangeComponent component,
-        GetVerbsEvent<Verb> args)
-    {
-        if (args.User != args.Target)
-            return; // Self only, but usable in crit
-
-        var verb = new Verb()
-        {
-            Text = Loc.GetString(
-                "trigger-on-mobstate-verb-text",
-                ("state", component.Enabled ? "ON" : "OFF")),
-            Act = () =>
-            {
-                component.Enabled = !component.Enabled;
-                _popupSystem.PopupEntity(
-                    Loc.GetString(
-                        "trigger-on-mobstate-verb-popup",
-                        ("state", component.Enabled ? "ENABLED" : "DISABLED")),
-                    args.User,
-                    args.User);
-            },
-            Disabled = false,
-            Message = "Toggle whether or not this thing tells everyone you are dead both inside and outside."
-        };
-        args.Verbs.Add(verb);
-    }
 }
