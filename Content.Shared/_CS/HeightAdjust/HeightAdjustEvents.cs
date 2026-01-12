@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Content.Shared.HeightAdjust;
+namespace Content.Shared._CS.HeightAdjust;
 
 /// <summary>
 /// Event raised to request recalculation of an entity's size.

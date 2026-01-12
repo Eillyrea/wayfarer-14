@@ -1,4 +1,4 @@
-namespace Content.Shared.Weapons.Ranged.Events;
+namespace Content.Shared._CS.Weapons.Ranged.Events;
 
 /// <summary>
 /// Raised to determine what ammo or hitscan prototype should be used for a shot.

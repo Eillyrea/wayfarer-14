@@ -1,13 +1,13 @@
+using Content.Shared._CS.Weapons.Ranged.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
 using Content.Shared.Weapons.Ranged.Components;
-using Content.Shared.Weapons.Ranged.Events;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Network;
 
-namespace Content.Shared.Weapons.Ranged.Systems;
+namespace Content.Shared._CS.Weapons.Ranged.Systems;
 
-public sealed class SizeManipulatorSystem : EntitySystem
+public abstract class SharedSizeManipulatorSystem : EntitySystem
 {
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -50,9 +50,6 @@ public sealed class SizeManipulatorSystem : EntitySystem
             ? Loc.GetString("size-manipulator-mode-grow")
             : Loc.GetString("size-manipulator-mode-shrink");
 
-        if (user != null && _net.IsClient)
-            _popup.PopupClient(message, uid, user.Value);
-        else if (user != null)
-            _popup.PopupEntity(message, uid, user.Value);
+        _popup.PopupPredicted(message, uid, user);
     }
 }

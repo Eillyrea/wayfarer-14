@@ -1,17 +1,11 @@
-using System;
 using System.Linq;
 using System.Numerics;
-using Content.Shared.CCVar;
 using Content.Shared.Humanoid;
-using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
 using Robust.Shared.Configuration;
-using Robust.Shared.Physics;
 using Robust.Shared.Physics.Systems;
-using Robust.Shared.Physics.Collision.Shapes;
-using Robust.Shared.Maths;
 
-namespace Content.Shared.HeightAdjust;
+namespace Content.Shared._CS.HeightAdjust;
 
 public sealed class HeightAdjustSystem : EntitySystem
 {
@@ -68,8 +62,8 @@ public sealed class HeightAdjustSystem : EntitySystem
         var newHeight = humanoid.BaseHeight * scale;
         var newWidth = humanoid.BaseWidth * scale;
 
-        _appearance.SetHeight(uid, newHeight, bypassLimits: bypassLimits, humanoid: humanoid);
-        _appearance.SetWidth(uid, newWidth, bypassLimits: bypassLimits, humanoid: humanoid);
+        _appearance.SetHeight((uid, humanoid), newHeight, bypassLimits: bypassLimits);
+        _appearance.SetWidth((uid, humanoid), newWidth, bypassLimits: bypassLimits);
 
         return true;
     }

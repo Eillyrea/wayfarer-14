@@ -1,6 +1,6 @@
 using Robust.Shared.Physics;
 
-namespace Content.Shared.Weapons.Ranged.Events;
+namespace Content.Shared._CS.Weapons.Ranged.Events;
 
 /// <summary>
 /// Raised after a hitscan weapon performs a raycast
