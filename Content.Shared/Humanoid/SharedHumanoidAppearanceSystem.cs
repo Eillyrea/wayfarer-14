@@ -390,11 +390,10 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
     /// <summary>
     ///     CS - Set the height of a humanoid mob
     /// </summary>
-    /// <param name="uid">The humanoid mob's UID.</param>
+    /// <param name="entity">The entity that should have the HumanoidAppearanceComponent. If null, it will try to be resolved.</param>
     /// <param name="height">Height to set the mob to.</param>
     /// <param name="sync">Whether to immediately synchronize this to the humanoid mob, or not.</param>
     /// <param name="bypassLimits">Whether to bypass species min/max limits (for temporary effects)</param>
-    /// <param name="humanoid">Humanoid component of the entity</param>
     public void SetHeight(Entity<HumanoidAppearanceComponent?> entity, float height, bool sync = true, bool bypassLimits = false)
     {
         if (!Resolve(entity.Owner, ref entity.Comp, false) || MathHelper.CloseTo(entity.Comp.Height, height, 0.001f))
@@ -417,11 +416,10 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
     /// <summary>
     ///     CS - Set the width of a humanoid mob
     /// </summary>
-    /// <param name="uid">The humanoid mob's UID.</param>
+    /// <param name="entity">The entity that should have the HumanoidAppearanceComponent. If null, it will try to be resolved.</param>
     /// <param name="width">Width to set the mob to.</param>
     /// <param name="sync">Whether to immediately synchronize this to the humanoid mob, or not.</param>
     /// <param name="bypassLimits">Whether to bypass species min/max limits (for temporary effects)</param>
-    /// <param name="humanoid">Humanoid component of the entity</param>
     public void SetWidth(Entity<HumanoidAppearanceComponent?> entity, float width, bool sync = true, bool bypassLimits = false)
     {
         if (!Resolve(entity.Owner, ref entity.Comp, false) || MathHelper.CloseTo(entity.Comp.Width, width, 0.001f))
