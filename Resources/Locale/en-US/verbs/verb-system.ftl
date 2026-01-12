@@ -31,8 +31,16 @@ verb-categories-power-level = Power Level
 verb-categories-adjust = Adjust
 verb-categories-radio-channels = Toggle Channels
 
+verb-categories-blip-preset = Blip Preset
+verb-categories-blip-color = Blip Color
+verb-categories-blip-shape = Blip Shape
+verb-categories-blip-size = Blip Size
+verb-categories-blip-toggle = Blip Toggle
+
 verb-common-toggle-light = Toggle light
 verb-common-close = Close
 verb-common-open = Open
 verb-common-close-ui = Close UI
 verb-common-open-ui = Open UI
+
+

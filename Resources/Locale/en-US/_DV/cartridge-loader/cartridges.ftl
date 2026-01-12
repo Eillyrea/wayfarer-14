@@ -1,3 +1,5 @@
+blip-cartridge-program-name = MapBlip5000
+
 mail-metrics-program-name = MailMetrics
 mail-metrics-header = Income from Mail Deliveries
 mail-metrics-opened = Earnings (Opened)

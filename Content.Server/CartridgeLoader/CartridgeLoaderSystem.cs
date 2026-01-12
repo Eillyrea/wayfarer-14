@@ -172,6 +172,10 @@ public sealed class CartridgeLoaderSystem : SharedCartridgeLoaderSystem
         {
             if (TryComp(program, out CartridgeComponent? installedCartridge) && installedCartridge.ProgramName == loadedCartridge.ProgramName)
                 return false;
+            if (loadedCartridge.KindTag != null
+                && installedCartridge?.KindTag != null
+                && installedCartridge.KindTag == loadedCartridge.KindTag)
+                return false;
         }
 
         //This will eventually be replaced by serializing and deserializing the cartridge to copy it when something needs

@@ -22,6 +22,10 @@ public sealed partial class RadarBlipSystem : EntitySystem
 
     // Maximum distance for blips to be considered visible
     private const float MaxBlipRenderDistance = 256f;
+    private const float MaxBlipRenderDistanceSquared = MaxBlipRenderDistance * MaxBlipRenderDistance;
+    // Minimum radar position change to invalidate cache (in units)
+    private const float RadarPositionChangeThreshold = 5f;
+    private const float RadarPositionChangeThresholdSquared = RadarPositionChangeThreshold * RadarPositionChangeThreshold;
 
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedTransformSystem _xform = default!;
@@ -29,6 +33,12 @@ public sealed partial class RadarBlipSystem : EntitySystem
     private TimeSpan _lastUpdatedTime;
     private List<(NetEntity? Grid, Vector2 Position, float Scale, Color Color, RadarBlipShape Shape)> _blips = new();
     private Vector2 _radarWorldPosition;
+    
+    // Cached filtered results
+    private List<(Vector2, float, Color, RadarBlipShape)> _cachedBlips = new();
+    private List<(NetEntity? Grid, Vector2 Position, float Scale, Color Color, RadarBlipShape Shape)> _cachedRawBlips = new();
+    private bool _cacheValid = false;
+    private Vector2 _cachedRadarPosition;
 
     public override void Initialize()
     {
@@ -44,10 +54,12 @@ public sealed partial class RadarBlipSystem : EntitySystem
         if (ev?.Blips == null)
         {
             _blips = EmptyRawBlipList;
+            _cacheValid = false;
             return;
         }
         _blips = ev.Blips;
         _lastUpdatedTime = _timing.CurTime;
+        _cacheValid = false;
     }
 
     /// <summary>
@@ -64,7 +76,16 @@ public sealed partial class RadarBlipSystem : EntitySystem
         _lastRequestTime = _timing.CurTime;
 
         // Cache the radar position for distance culling
-        _radarWorldPosition = _xform.GetWorldPosition(console);
+        var newRadarPosition = _xform.GetWorldPosition(console);
+        
+        // Invalidate cache if radar moved significantly
+        if (Vector2.DistanceSquared(newRadarPosition, _cachedRadarPosition) > RadarPositionChangeThresholdSquared)
+        {
+            _cacheValid = false;
+            _cachedRadarPosition = newRadarPosition;
+        }
+        
+        _radarWorldPosition = newRadarPosition;
 
         var netConsole = GetNetEntity(console);
         var ev = new RequestBlipsEvent(netConsole);
@@ -80,37 +101,11 @@ public sealed partial class RadarBlipSystem : EntitySystem
         if (_timing.CurTime.TotalSeconds - _lastUpdatedTime.TotalSeconds > BlipStaleSeconds)
             return EmptyBlipList;
 
-        var result = new List<(Vector2, float, Color, RadarBlipShape)>(_blips.Count);
-        foreach (var blip in _blips)
-        {
-            Vector2 worldPosition;
+        if (_cacheValid)
+            return _cachedBlips;
 
-            if (blip.Grid == null)
-            {
-                worldPosition = blip.Position;
-
-                // Distance culling for world position blips
-                if (Vector2.DistanceSquared(worldPosition, _radarWorldPosition) > MaxBlipRenderDistance * MaxBlipRenderDistance)
-                    continue;
-
-                result.Add((worldPosition, blip.Scale, blip.Color, blip.Shape));
-                continue;
-            }
-            if (TryGetEntity(blip.Grid, out var gridEntity))
-            {
-                var worldPos = _xform.GetWorldPosition(gridEntity.Value);
-                var gridRot = _xform.GetWorldRotation(gridEntity.Value);
-                var rotatedLocalPos = gridRot.RotateVec(blip.Position);
-                worldPosition = worldPos + rotatedLocalPos;
-
-                // Distance culling for grid position blips
-                if (Vector2.DistanceSquared(worldPosition, _radarWorldPosition) > MaxBlipRenderDistance * MaxBlipRenderDistance)
-                    continue;
-
-                result.Add((worldPosition, blip.Scale, blip.Color, blip.Shape));
-            }
-        }
-        return result;
+        UpdateCache();
+        return _cachedBlips;
     }
 
     /// <summary>
@@ -121,39 +116,57 @@ public sealed partial class RadarBlipSystem : EntitySystem
         if (_timing.CurTime.TotalSeconds - _lastUpdatedTime.TotalSeconds > BlipStaleSeconds)
             return EmptyRawBlipList;
 
-        // Implement distance culling for raw blips as well
         if (_blips.Count == 0)
             return _blips;
 
-        var filteredBlips = new List<(NetEntity? Grid, Vector2 Position, float Scale, Color Color, RadarBlipShape Shape)>(_blips.Count);
+        if (_cacheValid)
+            return _cachedRawBlips;
+
+        UpdateCache();
+        return _cachedRawBlips;
+    }
+
+    /// <summary>
+    /// Updates both caches by filtering blips based on distance.
+    /// </summary>
+    private void UpdateCache()
+    {
+        _cachedBlips.Clear();
+        _cachedRawBlips.Clear();
 
         foreach (var blip in _blips)
         {
-            // For non-grid blips, do direct distance check
+            Vector2 worldPosition;
+
             if (blip.Grid == null)
             {
-                if (Vector2.DistanceSquared(blip.Position, _radarWorldPosition) <= MaxBlipRenderDistance * MaxBlipRenderDistance)
-                {
-                    filteredBlips.Add(blip);
-                }
+                worldPosition = blip.Position;
+
+                // Distance culling for world position blips
+                if (Vector2.DistanceSquared(worldPosition, _radarWorldPosition) > MaxBlipRenderDistanceSquared)
+                    continue;
+
+                _cachedBlips.Add((worldPosition, blip.Scale, blip.Color, blip.Shape));
+                _cachedRawBlips.Add(blip);
                 continue;
             }
-
-            // For grid blips, transform to world space for distance check
+            
             if (TryGetEntity(blip.Grid, out var gridEntity))
             {
                 var worldPos = _xform.GetWorldPosition(gridEntity.Value);
                 var gridRot = _xform.GetWorldRotation(gridEntity.Value);
                 var rotatedLocalPos = gridRot.RotateVec(blip.Position);
-                var worldPosition = worldPos + rotatedLocalPos;
+                worldPosition = worldPos + rotatedLocalPos;
 
-                if (Vector2.DistanceSquared(worldPosition, _radarWorldPosition) <= MaxBlipRenderDistance * MaxBlipRenderDistance)
-                {
-                    filteredBlips.Add(blip);
-                }
+                // Distance culling for grid position blips
+                if (Vector2.DistanceSquared(worldPosition, _radarWorldPosition) > MaxBlipRenderDistanceSquared)
+                    continue;
+
+                _cachedBlips.Add((worldPosition, blip.Scale, blip.Color, blip.Shape));
+                _cachedRawBlips.Add(blip);
             }
         }
 
-        return filteredBlips;
+        _cacheValid = true;
     }
 }

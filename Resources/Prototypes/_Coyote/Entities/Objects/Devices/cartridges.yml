@@ -1,0 +1,31 @@
+- type: entity
+  parent: BaseItem
+  id: BlipCartridge
+  name: blip cartridge
+  description: A  cartridge that adds a radar blip for your PDA! Great for dying in the middle of nowhere and having pirates ransom your body!
+  components:
+    - type: Sprite
+      sprite: Objects/Devices/cartridge.rsi
+      state: cart-nav
+    - type: Icon
+      sprite: Objects/Devices/cartridge.rsi
+      state: cart-nav
+    - type: Cartridge
+      programName: blip-cartridge-program-name
+      icon:
+        sprite: Interface/Misc/job_icons.rsi
+        state: Chef
+      disposable: false
+      autoInstall: false
+      readonly: false
+    - type: BlipCartridge
+      scale: 2
+      blipColor: BlipColorGreen
+    - type: RadarBlip
+      enabled: true
+      visibleFromOtherGrids: true
+      scale: 2
+      radarColor: '#32CD32FF'
+      highlightedRadarColor: '#00FF00FF'
+    - type: StaticPrice
+      price: 500
