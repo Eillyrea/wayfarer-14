@@ -268,7 +268,7 @@ accent-goblin-words-263 = nice
 accent-goblin-words-264 = no sense
 accent-goblin-words-265 = nonsense
 accent-goblin-words-266 = nonsensical
-accent-goblin-words-267 cgp
+accent-goblin-words-267 = cgp
 accent-goblin-words-268 = officer
 accent-goblin-words-269 = paper
 accent-goblin-words-270 = papers

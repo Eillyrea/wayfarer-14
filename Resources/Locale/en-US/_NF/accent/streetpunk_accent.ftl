@@ -216,7 +216,7 @@ accent-streetpunk-replaced-208 = newspaper
 accent-streetpunk-replaced-209 = CGP
 accent-streetpunk-replaced-210 = nickname
 accent-streetpunk-replaced-211 = nothing
-accent-streetpunk-replaced-212 cgp
+accent-streetpunk-replaced-212 = cgp
 accent-streetpunk-replaced-213 = of
 accent-streetpunk-replaced-214 = officer
 accent-streetpunk-replaced-215 = old
