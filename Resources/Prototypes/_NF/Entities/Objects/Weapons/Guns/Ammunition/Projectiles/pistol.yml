@@ -9,8 +9,8 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 4
-        Blunt: 4
+        Piercing: 6
+        Blunt: 6
   - type: StaminaDamageOnCollide
     damage: 4 # 15 hits to slowdown
 
@@ -23,8 +23,8 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 4
-        Blunt: 5
+        Piercing: 6
+        Blunt: 7
   - type: StaminaDamageOnCollide
     damage: 5 # 12 hits to slowdown
 
@@ -37,8 +37,8 @@
   - type: Projectile
     damage:
       types:
-        Blunt: 4.8 # 0.6 * base total dmg
-        Heat: 3.2 # 0.4 * base total dmg
+        Blunt: 7.2 # 0.6 * base total dmg
+        Heat: 4.8 # 0.4 * base total dmg
   - type: StaminaDamageOnCollide
     damage: 4 # 15 hits to slowdown
 
@@ -51,8 +51,8 @@
   - type: Projectile
     damage:
       types:
-        Blunt: 6.6 # 0.6 * (1.4 * base total dmg)
-        Radiation: 4.4 # 0.4 * (1.4 * base total dmg)
+        Blunt: 9.9 # 0.6 * (1.4 * base total dmg)
+        Radiation: 6.6 # 0.4 * (1.4 * base total dmg)
   - type: StaminaDamageOnCollide
     damage: 4 # 15 hits to slowdown
 
@@ -78,8 +78,8 @@
   - type: Projectile
     damage:
       types:
-        Shock: 4
-        Blunt: 4
+        Shock: 6
+        Blunt: 6
   - type: StaminaDamageOnCollide
     damage: 4 # 15 hits to slowdown
 
@@ -106,8 +106,8 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 6
-        Blunt: 6
+        Piercing: 8
+        Blunt: 8
   - type: StaminaDamageOnCollide
     damage: 6 # 10 hits to slowdown
 
@@ -120,8 +120,8 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 6
-        Blunt: 7
+        Piercing: 9
+        Blunt: 10.5
   - type: StaminaDamageOnCollide
     damage: 7 # ~9 hits to slowdown
 
@@ -134,8 +134,8 @@
   - type: Projectile
     damage:
       types:
-        Blunt: 7.2 # 0.6 * base total dmg
-        Heat: 4.8 # 0.4 * base total dmg
+        Blunt: 10.8 # 0.6 * base total dmg
+        Heat: 7.2 # 0.4 * base total dmg
   - type: StaminaDamageOnCollide
     damage: 6 # 10 hits to slowdown
 
@@ -148,8 +148,8 @@
   - type: Projectile
     damage:
       types:
-        Blunt: 9.6 # 0.6 * (1.4 * base total dmg)
-        Radiation: 6.4 # 0.6 * (1.4 * base total dmg)
+        Blunt: 14.4 # 0.6 * (1.4 * base total dmg)
+        Radiation: 9.6 # 0.6 * (1.4 * base total dmg)
   - type: StaminaDamageOnCollide
     damage: 6 # 10 hits to slowdown
 
@@ -175,8 +175,8 @@
   - type: Projectile
     damage:
       types:
-        Shock: 6
-        Blunt: 6
+        Shock: 9
+        Blunt: 9
   - type: StaminaDamageOnCollide
     damage: 6 # 10 hits to slowdown
 
