@@ -2,12 +2,10 @@ using Content.Server._WF.Shuttles.Components;
 using Content.Server._WF.Shuttles.Systems;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
-using Content.Shared.Popups;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Verbs;
 using Robust.Shared.Map;
 using Robust.Shared.Utility;
-using System.Numerics;
 
 namespace Content.Server.Shuttles.Systems;
 
@@ -60,79 +58,57 @@ public sealed partial class ShuttleConsoleSystem
 
     private void ToggleAutopilot(EntityUid user, EntityUid consoleUid, EntityUid shuttleUid)
     {
-        if (!TryComp<ShuttleConsoleComponent>(consoleUid, out var console))
+        if (!TryComp<ShuttleConsoleComponent>(consoleUid, out _))
             return;
 
-        if (!TryComp<ShuttleComponent>(shuttleUid, out var shuttle))
+        if (!TryComp<ShuttleComponent>(shuttleUid, out _))
             return;
 
         // Check if autopilot is currently enabled
         var hasAutopilot = TryComp<AutopilotComponent>(shuttleUid, out var autopilotComp);
         var isEnabled = hasAutopilot && autopilotComp!.Enabled;
-
         if (isEnabled)
         {
-            // Disable autopilot
-            _autopilot.ToggleAutopilot(shuttleUid, null);
+            _autopilot.DisableAutopilot(shuttleUid);
             _popup.PopupEntity(Loc.GetString("shuttle-console-autopilot-disabled"), user, user);
+            return;
         }
-        else
+
+        // Try to get the target from the radar console
+        if (!TryComp<RadarConsoleComponent>(consoleUid, out var radarConsoleComponent))
         {
-            // Try to get the target from the radar console
-            if (!TryComp<RadarConsoleComponent>(consoleUid, out var radarConsole))
-            {
-                _popup.PopupEntity(Loc.GetString("shuttle-console-autopilot-no-target"), user, user);
-                return;
-            }
-
-            EntityCoordinates? targetCoords = null;
-
-            // Check if a target is set - accessing through query to avoid write access error
-            var targetQuery = EntityQueryEnumerator<RadarConsoleComponent>();
-            EntityUid? targetEntity = null;
-            Vector2? manualTarget = null;
-            
-            while (targetQuery.MoveNext(out var uid, out var radar))
-            {
-                if (uid == consoleUid)
-                {
-                    targetEntity = radar.TargetEntity;
-                    manualTarget = radar.Target;
-                    break;
-                }
-            }
-
-            // First try to use entity target
-            if (targetEntity != null && targetEntity.Value.IsValid())
-            {
-                if (TryComp<TransformComponent>(targetEntity.Value, out var targetXform))
-                {
-                    targetCoords = targetXform.Coordinates;
-                }
-            }
-            // Otherwise try to use manual coordinate target
-            else if (manualTarget != null && TryComp<TransformComponent>(consoleUid, out var consoleXform))
-            {
-                // Convert the map position to entity coordinates
-                var mapId = consoleXform.MapID;
-                targetCoords = new EntityCoordinates(_mapSystem.GetMap(mapId), manualTarget.Value);
-            }
-
-            if (targetCoords == null)
-            {
-                _popup.PopupEntity(Loc.GetString("shuttle-console-autopilot-no-target"), user, user);
-                return;
-            }
-
-            // Enable autopilot with the target
-            if (_autopilot.ToggleAutopilot(shuttleUid, targetCoords.Value))
-            {
-                _popup.PopupEntity(Loc.GetString("shuttle-console-autopilot-enabled"), user, user);
-            }
-            else
-            {
-                _popup.PopupEntity(Loc.GetString("shuttle-console-autopilot-failed"), user, user);
-            }
+            _popup.PopupEntity(Loc.GetString("shuttle-console-autopilot-no-target"), user, user);
+            return;
         }
+
+        // First try to use entity target
+        var targetEntity = radarConsoleComponent.TargetEntity;
+        if (
+            targetEntity != null &&
+            targetEntity.Value.IsValid() &&
+            TryComp<TransformComponent>(targetEntity.Value, out var targetXform)
+        )
+        {
+            var targetCoords = _transform.GetMapCoordinates(targetXform);
+            EnableAutopilot(user, shuttleUid, targetCoords);
+            return;
+        }
+
+        // Otherwise try to use manual coordinate target
+        var manualTarget = radarConsoleComponent.Target;
+        if (manualTarget != null && TryComp<TransformComponent>(consoleUid, out var consoleXform))
+        {
+            var targetCoords = new MapCoordinates(manualTarget.Value, consoleXform.MapID);
+            EnableAutopilot(user, shuttleUid, targetCoords);
+            return;
+        }
+
+        _popup.PopupEntity(Loc.GetString("shuttle-console-autopilot-no-target"), user, user);
+    }
+
+    private void EnableAutopilot(EntityUid user, EntityUid shuttleUid, MapCoordinates targetCoords)
+    {
+        _autopilot.EnableAutopilot(shuttleUid, targetCoords);
+        _popup.PopupEntity(Loc.GetString("shuttle-console-autopilot-enabled"), user, user);
     }
 }

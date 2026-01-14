@@ -1,4 +1,3 @@
-using System.Numerics;
 using Robust.Shared.Map;
 
 namespace Content.Server._WF.Shuttles.Components;
@@ -19,7 +18,7 @@ public sealed partial class AutopilotComponent : Component
     /// The target coordinates to navigate to.
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public EntityCoordinates? TargetCoordinates;
+    public MapCoordinates? TargetCoordinates;
 
     /// <summary>
     /// Speed multiplier when autopilot is active (60% of max speed).

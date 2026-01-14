@@ -167,21 +167,17 @@ public sealed class MoverController : SharedMoverController
             return;
 
         // Wayfarer: Disengage autopilot if player gives any navigational input
-        if (state && pilot.Console != null)
+        if (
+            state &&
+            pilot.Console != null &&
+            TryComp<TransformComponent>(pilot.Console.Value, out var consoleXform) &&
+            consoleXform.GridUid != null &&
+            TryComp<AutopilotComponent>(consoleXform.GridUid.Value, out var autopilot) &&
+            autopilot.Enabled
+        )
         {
-            if (TryComp<TransformComponent>(pilot.Console.Value, out var consoleXform) &&
-                consoleXform.GridUid != null &&
-                TryComp<AutopilotComponent>(consoleXform.GridUid.Value, out var autopilot) &&
-                autopilot.Enabled)
-            {
-                _autopilot.ToggleAutopilot(consoleXform.GridUid.Value);
-
-                // Send chat message to all players on the shuttle
-                if (TryComp<ActorComponent>(uid, out var actor))
-                {
-                    _chatManager.DispatchServerMessage(actor.PlayerSession, "Autopilot disengaged due to manual input");
-                }
-            }
+            _autopilot.DisableAutopilot(consoleXform.GridUid.Value);
+            _autopilot.SendShuttleMessage(consoleXform.GridUid.Value, "Releasing manual control to pilot");
         }
         // End Wayfarer
 
