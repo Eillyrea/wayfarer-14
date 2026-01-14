@@ -584,3 +584,10 @@ Entries:
   id: 6555
   time: '2026-01-13T21:16:46.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/220
+- author: Eillyrea
+  changes:
+    - type: Add
+      message: CGP - Kite
+  id: 6556
+  time: '2026-01-14T07:22:22.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/224
