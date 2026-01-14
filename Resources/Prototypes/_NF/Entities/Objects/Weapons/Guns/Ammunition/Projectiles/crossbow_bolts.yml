@@ -96,7 +96,7 @@
     onlyCollideWhenShot: true
     damage:
       types:
-        Piercing: 25
+        Piercing: 18
 
 - type: entity
   parent: [ BaseBoltProjectile, BaseBoltEmbeddable, BaseBoltLiquidInjector, BaseC1Contraband ]
@@ -166,8 +166,8 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 5
-        Slash: 15
+        Piercing: 4
+        Slash: 14
 
 - type: entity
   parent: BaseCrossbowBolt
@@ -189,7 +189,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 20
+        Piercing: 14
     deleteOnCollide: true
   - type: SolutionContainerManager
     solutions:
@@ -239,7 +239,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 20
+        Piercing: 12
   - type: Construction
     graph: CraftCrossbowBoltGlassShard
     node: CraftCrossbowBoltGlassShard
@@ -270,7 +270,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 20
+        Piercing: 14
   - type: Construction
     graph: CraftCrossbowBoltPlasmaGlassShard
     node: CraftCrossbowBoltPlasmaGlassShard
@@ -302,8 +302,8 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 15
-        Radiation: 5
+        Piercing: 14
+        Radiation: 4
   - type: Construction
     graph: CraftCrossbowBoltUraniumGlassShard
     node: CraftCrossbowBoltUraniumGlassShard
@@ -337,7 +337,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 15
+        Piercing: 14
     deleteOnCollide: true
   - type: Construction
     graph: CraftCrossbowBoltSyringe
@@ -369,7 +369,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 18
+        Piercing: 20
     ignoreResistances: true
   - type: Construction
     graph: CraftCrossbowBoltPlasteel
@@ -403,7 +403,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 15
+        Piercing: 12
     deleteOnCollide: true
   - type: ExplodeOnTrigger
   - type: Explosive
@@ -605,4 +605,4 @@
       types:
         Piercing: 5
         Slash: 5
-        Bloodloss: 5
+        Bloodloss: 3
