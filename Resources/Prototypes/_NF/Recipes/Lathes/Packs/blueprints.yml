@@ -98,6 +98,7 @@
   - ShuttleConsoleCircuitboard
   - ThrusterMachineCircuitboard
   - GyroscopeMachineCircuitboard
+  - AutopilotServerCircuitboard
   - MiniGravityGeneratorCircuitboard
   - MiniStationAnchorCircuitboard
   - SmallThrusterMachineCircuitboard

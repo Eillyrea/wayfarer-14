@@ -1,5 +1,6 @@
 using System.Numerics;
 using Content.Server._WF.Shuttles.Components;
+using Content.Server.Power.Components;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Systems;
 using Content.Server.Chat.Managers;
@@ -26,11 +27,30 @@ public sealed class AutopilotSystem : EntitySystem
     {
         base.Initialize();
         SubscribeLocalEvent<AutopilotComponent, ComponentShutdown>(OnAutopilotShutdown);
+        SubscribeLocalEvent<AutopilotServerComponent, AnchorStateChangedEvent>(OnAutopilotServerUnanchored);
     }
 
     private void OnAutopilotShutdown(EntityUid uid, AutopilotComponent component, ComponentShutdown args)
     {
         component.Enabled = false;
+    }
+
+    private void OnAutopilotServerUnanchored(EntityUid uid, AutopilotServerComponent component, ref AnchorStateChangedEvent args)
+    {
+        // If the server is being unanchored, disable autopilot on the grid it was on
+        if (!args.Anchored)
+        {
+            var gridUid = args.Transform.GridUid;
+            if (gridUid != null)
+            {
+                // Check if there's an autopilot component on this grid
+                if (TryComp<AutopilotComponent>(gridUid.Value, out var autopilot) && autopilot.Enabled)
+                {
+                    DisableAutopilot(gridUid.Value);
+                    SendShuttleMessage(gridUid.Value, "Autopilot server disconnected - autopilot disabled");
+                }
+            }
+        }
     }
 
     public override void Update(float frameTime)
@@ -48,6 +68,14 @@ public sealed class AutopilotSystem : EntitySystem
             if (!shuttle.Enabled)
             {
                 autopilot.Enabled = false;
+                continue;
+            }
+
+            // Check if autopilot server has power
+            if (!HasPoweredAutopilotServer(uid))
+            {
+                DisableAutopilot(uid);
+                SendShuttleMessage(uid, "Autopilot server lost power - autopilot disabled");
                 continue;
             }
 
@@ -484,5 +512,26 @@ public sealed class AutopilotSystem : EntitySystem
         autopilot.Enabled = false;
         autopilot.TargetCoordinates = null;
         SendShuttleMessage(shuttleUid, "Autopilot disabled");
+    }
+
+    /// <summary>
+    /// Checks if there's a powered autopilot server on the shuttle grid.
+    /// </summary>
+    private bool HasPoweredAutopilotServer(EntityUid shuttleGridUid)
+    {
+        var query = EntityQueryEnumerator<AutopilotServerComponent, TransformComponent, ApcPowerReceiverComponent>();
+        while (query.MoveNext(out var serverUid, out var server, out var xform, out var powerReceiver))
+        {
+            // Check if the server is on the same grid as the shuttle
+            if (xform.GridUid == shuttleGridUid && xform.Anchored)
+            {
+                // Check if the server is powered
+                if (powerReceiver.Powered)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

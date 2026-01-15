@@ -43,6 +43,7 @@
   - PortableGeneratorJrPacmanMachineCircuitboard
   - ThrusterMachineCircuitboard
   - GyroscopeMachineCircuitboard
+  - AutopilotServerCircuitboard
   - MiniGravityGeneratorCircuitboard
   - MiniStationAnchorCircuitboard
   - GasRecyclerMachineCircuitboard

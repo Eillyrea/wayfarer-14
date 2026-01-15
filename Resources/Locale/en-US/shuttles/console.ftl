@@ -66,4 +66,5 @@ shuttle-console-autopilot-disable = Disable Autopilot
 shuttle-console-autopilot-enabled = Autopilot engaged
 shuttle-console-autopilot-disabled = Autopilot disabled
 shuttle-console-autopilot-no-target = No radar target selected
+shuttle-console-autopilot-no-server = No autopilot server installed on this shuttle
 # End Wayfarer

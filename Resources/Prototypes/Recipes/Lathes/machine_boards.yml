@@ -321,6 +321,11 @@
   result: GyroscopeMachineCircuitboard
 
 - type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseSupplyMachineRecipeCategory ]
+  id: AutopilotServerCircuitboard
+  result: AutopilotServerCircuitboard
+
+- type: latheRecipe
   parent: [ BaseGoldCircuitboardRecipe, BaseSupplyMachineRecipeCategory ]
   id: MiniGravityGeneratorCircuitboard
   result: MiniGravityGeneratorCircuitboard

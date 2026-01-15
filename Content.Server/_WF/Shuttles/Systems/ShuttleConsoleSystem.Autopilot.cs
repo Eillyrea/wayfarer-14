@@ -1,5 +1,6 @@
 using Content.Server._WF.Shuttles.Components;
 using Content.Server._WF.Shuttles.Systems;
+using Content.Server.Power.Components;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
 using Content.Shared.Shuttles.Components;
@@ -41,6 +42,11 @@ public sealed partial class ShuttleConsoleSystem
         if (shuttleGridUid == null)
             return;
 
+        // Check if an autopilot server is installed on the shuttle grid
+        var hasAutopilotServer = HasAutopilotServer(shuttleGridUid.Value);
+        if (!hasAutopilotServer)
+            return; // Don't show the verb if no autopilot server is present
+
         // Check if autopilot component exists and is enabled
         var hasAutopilot = TryComp<AutopilotComponent>(shuttleGridUid.Value, out var autopilotComp);
         var isEnabled = hasAutopilot && autopilotComp!.Enabled;
@@ -63,6 +69,13 @@ public sealed partial class ShuttleConsoleSystem
 
         if (!TryComp<ShuttleComponent>(shuttleUid, out _))
             return;
+
+        // Check if an autopilot server is installed on the shuttle grid
+        if (!HasAutopilotServer(shuttleUid))
+        {
+            _popup.PopupEntity(Loc.GetString("shuttle-console-autopilot-no-server"), user, user);
+            return;
+        }
 
         // Check if autopilot is currently enabled
         var hasAutopilot = TryComp<AutopilotComponent>(shuttleUid, out var autopilotComp);
@@ -110,5 +123,30 @@ public sealed partial class ShuttleConsoleSystem
     {
         _autopilot.EnableAutopilot(shuttleUid, targetCoords);
         _popup.PopupEntity(Loc.GetString("shuttle-console-autopilot-enabled"), user, user);
+    }
+
+    /// <summary>
+    /// Checks if an autopilot server is installed and powered on the shuttle grid.
+    /// </summary>
+    private bool HasAutopilotServer(EntityUid shuttleGridUid)
+    {
+        var query = EntityQueryEnumerator<AutopilotServerComponent, TransformComponent>();
+        while (query.MoveNext(out var serverUid, out var server, out var xform))
+        {
+            // Check if the server is on the same grid as the shuttle
+            if (xform.GridUid == shuttleGridUid)
+            {
+                // Check if the server is anchored and powered
+                if (xform.Anchored)
+                {
+                    // Check if powered (if it has a power receiver, check if it's powered)
+                    if (!TryComp<ApcPowerReceiverComponent>(serverUid, out var powerReceiver) || powerReceiver.Powered)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
