@@ -623,3 +623,14 @@ Entries:
   id: 6560
   time: '2026-01-15T00:31:38.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/229
+- author: drraccoony
+  changes:
+    - type: Tweak
+      message: Changed PDA shift duration from dd:hh:mm:ss to have labels.
+    - type: Tweak
+      message: Changed deaddrop printouts to show days in timestamp
+    - type: Tweak
+      message: Admin logging now has a prefix to better understand day the log is from
+  id: 6561
+  time: '2026-01-15T00:32:18.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/234
