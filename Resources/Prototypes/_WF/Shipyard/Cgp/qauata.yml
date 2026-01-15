@@ -19,7 +19,7 @@
 - type: gameMap
   id: Qauata
   mapName: 'CGP Qauata'
-  mapPath: /Maps/_WF/Shuttles/Cgp/Qauata.yml
+  mapPath: /Maps/_WF/Shuttles/Cgp/qauata.yml
   minPlayers: 0
   stations:
     Qauata:
