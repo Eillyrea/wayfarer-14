@@ -787,7 +787,7 @@ public sealed partial class ChatSystem : SharedChatSystem
             source,
             hideChat
                 ? ChatTransmitRange.HideChat
-                : ChatTransmitRange.Normal,
+                : ChatTransmitRange.NoGhosts,
             player.UserId,
             voiceRange: SubtleLOOCRange,
             blockedByOcclusion: !SubtleLOOCGoesThroughWalls,
