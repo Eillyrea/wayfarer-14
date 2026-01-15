@@ -11,7 +11,9 @@ public sealed class AdminLogLabel : RichTextLabel
         Log = log;
         Separator = separator;
 
-        SetMessage($"{log.Date:HH:mm:ss}: {log.Message}");
+        // Format timestamp with date for clarity in multi-day shifts
+        var timestamp = $"{log.Date:MMM dd HH:mm:ss}";
+        SetMessage($"{timestamp}: {log.Message}");
         OnVisibilityChanged += VisibilityChanged;
     }
 
