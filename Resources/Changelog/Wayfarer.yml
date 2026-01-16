@@ -669,3 +669,10 @@ Entries:
   id: 6566
   time: '2026-01-15T03:53:37.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/238
+- author: drraccoony
+  changes:
+    - type: Tweak
+      message: Changed character description default from 512 to 2048
+  id: 6567
+  time: '2026-01-16T04:16:35.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/242
