@@ -5,13 +5,12 @@ using Content.Shared._WF.CartridgeLoader.Cartridges;
 using Content.Shared.CartridgeLoader;
 using Content.Shared.Ghost;
 using Content.Shared.Humanoid;
-using Content.Shared.Implants.Components;
 using Content.Shared.Inventory;
+using Content.Shared.Mind;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.PDA;
-using Robust.Shared.Containers;
 using Robust.Shared.Timing;
 
 namespace Content.Server._WF.CartridgeLoader.Cartridges;
@@ -21,10 +20,10 @@ public sealed class CriticalImplantTrackerCartridgeSystem : EntitySystem
     [Dependency] private readonly CartridgeLoaderSystem _cartridgeLoader = default!;
     [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly MobStateSystem _mobStateSystem = default!;
-    [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
     [Dependency] private readonly MetaDataSystem _metaData = default!;
     [Dependency] private readonly InventorySystem _inventorySystem = default!;
     [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private readonly SharedMindSystem _mindSystem = default!;
 
     public override void Initialize()
     {
@@ -91,36 +90,38 @@ public sealed class CriticalImplantTrackerCartridgeSystem : EntitySystem
             }
 
             // Calculate time since entering crit/death
-            // For dead entities, check if they have a ghost component with time of death
-            var timeSinceCrit = "Unknown";
-            if (isDead && TryComp<GhostComponent>(mobUid, out var ghost))
+            var timeSinceCrit = "Active";
+            if (isDead)
             {
-                var elapsedTime = _gameTiming.CurTime - ghost.TimeOfDeath;
-                var totalSeconds = (int)elapsedTime.TotalSeconds;
-                var minutes = totalSeconds / 60;
-                var seconds = totalSeconds % 60;
-                timeSinceCrit = minutes > 0 ? $"{minutes}m {seconds}s" : $"{seconds}s";
-            }
-
-            // Find all implants on this entity
-            var implants = new List<string>();
-            if (_containerSystem.TryGetContainer(mobUid, ImplanterComponent.ImplantSlotId, out var implantContainer))
-            {
-                foreach (var implant in implantContainer.ContainedEntities)
+                TimeSpan? timeOfDeath = null;
+                
+                // Try to get time of death from mind first
+                if (_mindSystem.TryGetMind(mobUid, out var mindId, out var mind) && mind.TimeOfDeath.HasValue)
                 {
-                    if (HasComp<SubdermalImplantComponent>(implant))
-                    {
-                        var implantName = MetaData(implant).EntityName;
-                        implants.Add(implantName);
-                    }
+                    timeOfDeath = mind.TimeOfDeath.Value;
+                }
+                // Fall back to ghost component if available
+                else if (TryComp<GhostComponent>(mobUid, out var ghost))
+                {
+                    timeOfDeath = ghost.TimeOfDeath;
+                }
+                
+                if (timeOfDeath.HasValue)
+                {
+                    var elapsedTime = _gameTiming.CurTime - timeOfDeath.Value;
+                    var totalSeconds = (int)elapsedTime.TotalSeconds;
+                    var minutes = totalSeconds / 60;
+                    var seconds = totalSeconds % 60;
+                    timeSinceCrit = minutes > 0 ? $"{minutes}m {seconds}s" : $"{seconds}s";
+                }
+                else
+                {
+                    timeSinceCrit = "Unknown";
                 }
             }
 
-            // Only add patients who have implants
-            if (implants.Count > 0)
-            {
-                patients.Add(new CriticalPatientData(name, implants, coordinates, species, timeSinceCrit, isDead));
-            }
+            // Add all critical/dead patients
+            patients.Add(new CriticalPatientData(name, coordinates, species, timeSinceCrit, isDead));
         }
 
         var state = new CriticalImplantTrackerUiState(patients);
