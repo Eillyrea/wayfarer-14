@@ -735,3 +735,12 @@ Entries:
   id: 6574
   time: '2026-01-17T22:59:38.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/253
+- author: Eillyrea
+  changes:
+    - type: Add
+      message: Sink, Drain, Showerheads, Plumbing Assembly
+    - type: Tweak
+      message: Sinks watertanks from 500u to 100u
+  id: 6575
+  time: '2026-01-17T23:31:57.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/254
