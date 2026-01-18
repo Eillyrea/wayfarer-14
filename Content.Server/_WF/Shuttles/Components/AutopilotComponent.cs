@@ -50,4 +50,10 @@ public sealed partial class AutopilotComponent : Component
     /// </summary>
     [ViewVariables]
     public HashSet<EntityUid> ReportedObstacles = new();
+
+    /// <summary>
+    /// If true, sends debug messages about obstacle detection to pilots.
+    /// </summary>
+    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    public bool DebugObstacles = false;
 }

@@ -245,9 +245,8 @@ public sealed class AutopilotSystem : EntitySystem
         var nearestIntersection = float.MaxValue;
         var highestThreatLevel = 0f;
 
-        // Debug: report scan status periodically (every ~2 seconds based on frame timing)
-        var debugKey = $"scan_{shuttleUid}";
-        if (!autopilot.ReportedObstacles.Contains(EntityUid.Invalid))
+        // Debug: report scan status periodically
+        if (autopilot.DebugObstacles && !autopilot.ReportedObstacles.Contains(EntityUid.Invalid))
         {
             autopilot.ReportedObstacles.Add(EntityUid.Invalid); // Use Invalid as a "we've reported scan status" marker
             SendShuttleMessage(shuttleUid, $"Autopilot: Scanning... speed={speed:F1}, lookAhead={lookAheadDistance:F0}m, ourRadius={ourRadius:F0}m, gridsInRange={grids.Count}");
@@ -297,8 +296,8 @@ public sealed class AutopilotSystem : EntitySystem
             var lateralOffset = toObstacle - forward * forwardComponent;
             var lateralDistance = lateralOffset.Length();
 
-            // Report ANY grid that passes the basic forward/behind checks, before lateral filter
-            if (!autopilot.ReportedObstacles.Contains(gridUid))
+            // Debug: Report ANY grid that passes the basic forward/behind checks, before lateral filter
+            if (autopilot.DebugObstacles && !autopilot.ReportedObstacles.Contains(gridUid))
             {
                 autopilot.ReportedObstacles.Add(gridUid);
                 var obstacleName = MetaData(gridUid).EntityName;
