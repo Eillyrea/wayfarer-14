@@ -159,6 +159,7 @@
     - CrewManifestCartridge
     - NotekeeperCartridge
     - NanoTaskCartridge
+    - NanoChatCartridge # Wayfarer
     - NewsReaderCartridge
     - BountyContractsCartridge
     - AstroNavCartridge
@@ -386,6 +387,7 @@
     - AstroNavCartridge
     - LedgerCartridge
     - MailMetricsCartridge
+    - NanoChatCartridge # Wayfarer
   - type: BlipCartridge
     defaultPreset: BlipPresetCommand
 
@@ -546,6 +548,7 @@
     - AstroNavCartridge
     - LedgerCartridge
     - MedTekCartridge
+    - NanoChatCartridge # Wayfarer
 
 - type: entity
   parent: BasePDA
@@ -592,5 +595,6 @@
     - BountyContractsCartridge
     - AstroNavCartridge
     - LedgerCartridge
+    - NanoChatCartridge # Wayfarer
   - type: BlipCartridge
     defaultPreset: BlipPresetCommand
