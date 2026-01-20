@@ -304,6 +304,7 @@
     - id: WeaponCrusherGlaive
     - id: ClothingOuterHardsuitSalvage
     - id: ChemistryBottleOmnizine
+      weight: 0.2
     - !type:GroupSelector
       children:
       - id: JetpackBlueFilled
@@ -314,6 +315,7 @@
     #   - id: PKAUpgradeRange # Frontier
     #   - id: PKAUpgradeFireRate # Frontier
     - id: PowerCellAntiqueProto # Frontier
+      weight: 0.2
     - id: NFShovel # Frontier
 
 - type: entityTable
