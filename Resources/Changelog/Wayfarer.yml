@@ -772,3 +772,10 @@ Entries:
   id: 6577
   time: '2026-01-20T18:02:16.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/270
+- author: Eillyrea
+  changes:
+    - type: Tweak
+      message: Plant Analyzers scan faster
+  id: 6578
+  time: '2026-01-20T18:05:22.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/274
