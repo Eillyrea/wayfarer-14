@@ -30,6 +30,7 @@ public sealed class CharacterExamineSystem : EntitySystem
 
     private void OnGetExamineVerbs(EntityUid uid, HumanoidAppearanceComponent component, GetVerbsEvent<ExamineVerb> args)
     {
+        // Wayfarer Begin
         args.Verbs.Add(new ExamineVerb
         {
             Text = Loc.GetString("character-examine-verb"),
@@ -39,6 +40,7 @@ public sealed class CharacterExamineSystem : EntitySystem
             ClientExclusive = true,
             ShowOnExamineTooltip = true,
         });
+        // Wayfarer End
     }
 
     private void OnGetExamineVerbsWithMind(EntityUid uid, MindContainerComponent component, GetVerbsEvent<ExamineVerb> args)
