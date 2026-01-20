@@ -56,7 +56,7 @@
   parent: BaseSignDirectionalNF
   id: SignDirectionalNfsd
   name: CGP outpost sign
-  description: A direction sign, pointing out which way an CGP outpost is.
+  description: A direction sign, pointing out which way a CGP outpost is.
   components:
   - type: Sprite
     state: direction_nfsd
@@ -110,7 +110,7 @@
   parent: NFBaseSign
   id: SignNfsdBrief
   name: briefing sign
-  description: A sign that marks the area beyond as an CGP briefing room.
+  description: A sign that marks the area beyond as a CGP briefing room.
   components:
   - type: Sprite
     state: brief
@@ -119,7 +119,7 @@
   parent: NFBaseSign
   id: SignNfsdBrig
   name: brig sign
-  description: A sign that marks the area beyond as an CGP brig.
+  description: A sign that marks the area beyond as a CGP brig.
   components:
   - type: Sprite
     state: brig
@@ -137,7 +137,7 @@
   parent: NFBaseSign
   id: SignNfsdDetective
   name: detective sign
-  description: A sign that marks the area beyond as an CGP detective's office.
+  description: A sign that marks the area beyond as a CGP detective's office.
   components:
   - type: Sprite
     state: detective
@@ -155,7 +155,7 @@
   parent: NFBaseSign
   id: SignNfsdRange
   name: shooting range sign
-  description: A sign that marks the area beyond as an CGP shooting range.
+  description: A sign that marks the area beyond as a CGP shooting range.
   components:
   - type: Sprite
     state: range

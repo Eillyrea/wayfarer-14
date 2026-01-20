@@ -930,7 +930,7 @@
   parent: UniformPrinterFlatpack
   id: NfsdTechFabFlatpack
   name: CGP techfab flatpack
-  description: A flatpack used for constructing an CGP techfab.
+  description: A flatpack used for constructing a CGP techfab.
   components:
   - type: Flatpack
     entity: NfsdTechFab

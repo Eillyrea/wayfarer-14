@@ -556,7 +556,7 @@
   - BaseC2ContrabandUnredeemable
   id: NFVehicleHoverbikeNfsd
   name: CGP hoverbike
-  description: An CGP issued turbine with bike handles. Very safe.
+  description: A CGP issued turbine with bike handles. Very safe.
   components:
   - type: Vehicle
     sirenSound:
