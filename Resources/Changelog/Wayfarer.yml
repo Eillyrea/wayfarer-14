@@ -814,3 +814,14 @@ Entries:
   id: 6583
   time: '2026-01-20T20:23:32.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/286
+- author: Eillyrea
+  changes:
+    - type: Add
+      message: CGP Roles
+    - type: Remove
+      message: NFSD Roles
+    - type: Tweak
+      message: Updated ID console
+  id: 6584
+  time: '2026-01-20T23:31:52.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/280
