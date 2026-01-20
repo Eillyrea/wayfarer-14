@@ -158,7 +158,7 @@
   id: NfsdTechFabCircuitboard
   parent: SecurityTechFabCircuitboard
   name: CGP techfab machine board
-  description: A machine printed circuit board for an CGP techfab.
+  description: A machine printed circuit board for a CGP techfab.
   components:
     - type: Sprite
       sprite: _NF/Objects/Misc/module.rsi
