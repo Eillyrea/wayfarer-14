@@ -800,3 +800,10 @@ Entries:
   id: 6581
   time: '2026-01-20T18:57:33.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/225
+- author: drraccoony
+  changes:
+    - type: Tweak
+      message: Changed the ability to see OOC Freetext on Ghost controlled mobs
+  id: 6582
+  time: '2026-01-20T19:07:09.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/271
