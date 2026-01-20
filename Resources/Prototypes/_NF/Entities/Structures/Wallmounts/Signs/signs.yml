@@ -146,7 +146,7 @@
   parent: NFBaseSign
   id: SignNfsdLaw
   name: lawyer sign
-  description: A sign that marks the area beyond as an CGP lawyer's office.
+  description: A sign that marks the area beyond as a CGP lawyer's office.
   components:
   - type: Sprite
     state: law
