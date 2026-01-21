@@ -18,7 +18,11 @@ public sealed partial class NavScreen
     {
         // Only send enable request if not already enabled
         if (_autopilotEnabled)
+        {
+            // Keep the button visually pressed since autopilot is still active
+            AutopilotButton.Pressed = true;
             return;
+        }
 
         _entManager.TryGetNetEntity(_shuttleEntity, out var shuttle);
         OnAutopilotToggled?.Invoke(shuttle);
