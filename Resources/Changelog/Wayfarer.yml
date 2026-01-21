@@ -834,3 +834,10 @@ Entries:
   id: 6585
   time: '2026-01-20T23:32:05.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/287
+- author: drraccoony
+  changes:
+    - type: Add
+      message: Added better multiple character resuming support via cryosleep
+  id: 6586
+  time: '2026-01-21T00:19:29.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/288
