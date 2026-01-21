@@ -850,3 +850,10 @@ Entries:
   id: 6587
   time: '2026-01-21T01:05:26.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/289
+- author: drraccoony
+  changes:
+    - type: Tweak
+      message: Adjusted solar flare events to be less frequent and longer between them
+  id: 6588
+  time: '2026-01-21T01:16:36.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/291
