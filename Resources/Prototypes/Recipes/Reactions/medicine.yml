@@ -666,7 +666,7 @@
 - type: reaction
   id: Neostigmine
   reactants:
-    Bicaridine:
+    Tricordrazine:
       amount: 2
     Omnizine:
       amount: 2
