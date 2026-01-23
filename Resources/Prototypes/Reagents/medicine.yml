@@ -1494,7 +1494,7 @@
       - !type:GenericStatusEffect
         key: StaminaModifier
         component: StaminaModifier
-        time: 1.5
+        time: 1.1
         type: Add
       - !type:HealthChange
         damage:
