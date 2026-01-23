@@ -670,5 +670,7 @@
       amount: 2
     Omnizine:
       amount: 2
+    Iodine:
+      Amount: 1
   products:
     Neostigmine: 2
