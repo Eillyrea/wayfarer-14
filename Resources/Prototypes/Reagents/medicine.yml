@@ -1499,14 +1499,14 @@
       - !type:HealthChange
         damage:
           types:
-            Blunt: 0.5 #2.5 per 1u
+            Blunt: 0.5 #1 per 1u
       - !type:HealthChange
          conditions:
            - !type:ReagentThreshold
              min: 11
          damage:
            types:
-              Blunt: 1 # 10 per 1u
+              Blunt: 3 # 6 per 1u
       - !type:Jitter
         conditions:
         - !type:ReagentThreshold
