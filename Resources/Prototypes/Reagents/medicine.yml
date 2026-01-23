@@ -835,7 +835,6 @@
       - !type:SatiateHunger
         factor: -1
 
-  # Should heal quite literally everything, use in very small amounts
 - type: reagent
   id: Omnizine
   name: reagent-name-omnizine
@@ -1480,3 +1479,34 @@
       - !type:AdjustReagent
         reagent: MindbreakerToxin
         amount: -3.0
+
+- type: reagent
+  id: Neostigmine
+  name: reagent-name-neostigmine
+  group: Medicine
+  desc: reagent-desc-neostigmine
+  physicalDesc: reagent-physical-desc-misty
+  flavor: medicine
+  color: "#d3d3d3"
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:GenericStatusEffect
+        key: Stun
+        time: 2
+        type: Remove
+      - !type:GenericStatusEffect
+        key: KnockedDown
+        time: 2
+        type: Remove
+      - !type:HealthChange
+        damage:
+          types:
+            Blunt: 1 #2 per 1u
+      conditions:
+      - !type:ReagentThreshold
+        min: 11
+      damage:
+        types:
+          Blunt: 3 # 12 per 1u
+

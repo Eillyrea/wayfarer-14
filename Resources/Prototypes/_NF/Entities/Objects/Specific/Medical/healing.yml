@@ -517,3 +517,18 @@
           reagents:
             - ReagentId: Stimulants
               Quantity: 300
+
+- type: entity
+  parent: VialBluespace
+  suffix: Neostigmine 300u
+  id: NeostigmineMedicalVialBluespace
+  components:
+  - type: Label
+    currentLabel: reagent-name-neostigmine
+  - type: SolutionContainerManager
+    solutions:
+      beaker:
+        maxVol: 300
+        reagents:
+        - ReagentId: Neostigmine
+          Quantity: 300
