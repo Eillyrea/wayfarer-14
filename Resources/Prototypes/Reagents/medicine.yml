@@ -1485,11 +1485,12 @@
   name: reagent-name-neostigmine
   group: Medicine
   desc: reagent-desc-neostigmine
-  physicalDesc: reagent-physical-desc-misty
+  physicalDesc: reagent-physical-desc-translucent
   flavor: medicine
-  color: "#d3d3d3"
+  color: "#ffffa1"
   metabolisms:
     Medicine:
+      metabolismRate: 0.2
       effects:
       - !type:GenericStatusEffect
         key: Stun
@@ -1502,11 +1503,16 @@
       - !type:HealthChange
         damage:
           types:
-            Blunt: 1 #2 per 1u
-      conditions:
-      - !type:ReagentThreshold
-        min: 11
-      damage:
-        types:
-          Blunt: 3 # 12 per 1u
+            Blunt: 0.5 #2.5 per 1u
+      - !type:HealthChange
+         conditions:
+           - !type:ReagentThreshold
+             min: 11
+         damage:
+           types:
+              Blunt: 1 # 10 per 1u
+      - !type:Jitter
+        conditions:
+        - !type:ReagentThreshold
+          min: 11
 

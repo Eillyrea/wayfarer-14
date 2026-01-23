@@ -664,11 +664,11 @@
     Haloperidol: 5
 
 - type: reaction
-- id: Neostigmine
-- reactants:
-- Bicaridine:
-- amount: 2
-- Curine:
-- amount: 2
-- products:
-- Neostigmine: 2
+  id: Neostigmine
+  reactants:
+    Bicaridine:
+      amount: 2
+    Omnizine:
+      amount: 2
+  products:
+    Neostigmine: 2
