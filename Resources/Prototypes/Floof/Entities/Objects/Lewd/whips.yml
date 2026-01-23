@@ -18,9 +18,9 @@
     soundHit:
       path: /Audio/Floof/Lewd/whip.ogg
   - type: StaminaDamageOnHit
-    damage: 20
+    damage: 14
   - type: StaminaDamageOnCollide
-    damage: 20
+    damage: 14
   - type: StaticPrice
     price: 60
   - type: Item
