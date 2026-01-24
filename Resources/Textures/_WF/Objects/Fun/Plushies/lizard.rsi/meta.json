@@ -12,15 +12,15 @@
             "name": "wehfarericon"
         },
         {
-            "name": "wehfarer-inhand-left",
+            "name": "inhand-left",
             "directions": 4
         },
         {
-            "name": "wehfarer-inhand-right",
+            "name": "inhand-right",
             "directions": 4
         },
         {
-            "name": "wehfarer-equipped-HELMET",
+            "name": "equipped-HELMET",
             "directions": 4
         }
     ]
