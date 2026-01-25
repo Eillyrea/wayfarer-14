@@ -33,7 +33,7 @@
       types:
         Piercing: 1
   - type: StaminaDamageOnCollide
-    damage: 10 # 10 hits to stun
+    damage: 10 # 10 hits to stun WF reduction stamina rebalance
 
 #region .20 rifle
 - type: entity
@@ -246,7 +246,7 @@
       types:
         Piercing: 2
   - type: StaminaDamageOnCollide
-    damage: 14 # ~8 hits to stun sounds reasonable
+    damage: 13 # ~8 hits to stun sounds reasonable
 
 #region .60 rifle
 - type: entity
