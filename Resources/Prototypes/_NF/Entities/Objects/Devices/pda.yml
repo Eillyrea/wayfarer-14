@@ -126,7 +126,7 @@
 - type: entity
   parent: [BaseSecurityPDA, BaseCommandContraband]
   id: SheriffPDA
-  name: sheriff PDA
+  name: commodore PDA
   description: Whosoever bears this PDA is the law.
   components:
   - type: Pda
@@ -169,7 +169,7 @@
 - type: entity
   parent: BaseSecurityPDA
   id: CadetPDA
-  name: cadet PDA
+  name: junior peacekeeper PDA
   description: Whosoever bears this PDA could be the law.
   components:
   - type: Pda
@@ -195,7 +195,7 @@
 - type: entity
   parent: BaseSecurityPDA
   id: DeputyPDA
-  name: deputy PDA
+  name: peacekeeper PDA
   description: Whosoever bears this PDA is close to being the law.
   components:
   - type: Pda
@@ -221,7 +221,7 @@
 - type: entity
   parent: BaseSecurityPDA
   id: BrigmedicNFPDA
-  name: brigmedic PDA
+  name: corpsman PDA
   description: Whosoever bears this PDA heals the law.
   components:
   - type: Pda
@@ -247,7 +247,7 @@
 - type: entity
   parent: BaseSecurityPDA
   id: SergeantPDA
-  name: sergeant PDA
+  name: senior peacekeeper PDA
   description: Whosoever bears this PDA puts the law on their back.
   components:
   - type: Pda
@@ -273,7 +273,7 @@
 - type: entity
   parent: BaseSecurityPDA
   id: BailiffPDA
-  name: bailiff PDA
+  name: master-at-arms PDA
   description: Whosoever bears this PDA puts the law on their back.
   components:
   - type: Pda
@@ -299,11 +299,17 @@
 - type: entity
   parent: BaseSecurityPDA
   id: NFDetectivePDA
-  name: detective PDA
+  name: internal affairs agent PDA
   description: Smells like rain... pouring down the rooftops...
   components:
   - type: Pda
     id: NFDetectiveIDCard
+    penSlot:
+      startingItem: PublicAffairsPen
+      priority: -1
+      whitelist:
+         tags:
+         - Write
     bookSlot: # Frontier
       startingItem: HyperlinkBookNfsdSop
       priority: -2
