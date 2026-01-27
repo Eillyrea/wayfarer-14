@@ -1030,3 +1030,10 @@ Entries:
   id: 6609
   time: '2026-01-27T15:55:56.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/259
+- author: drraccoony
+  changes:
+    - type: Tweak
+      message: Changed subtle text to remove 'subtly' from chat message
+  id: 6610
+  time: '2026-01-27T15:57:18.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/360
