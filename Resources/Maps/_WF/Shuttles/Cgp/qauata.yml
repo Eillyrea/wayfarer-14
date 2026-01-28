@@ -40,7 +40,7 @@ entities:
     - type: MetaData
       name: Qaunta
     - type: Transform
-      pos: -60,0
+      pos: -0,0
       parent: invalid
     - type: MapGrid
       chunks:

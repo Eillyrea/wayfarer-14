@@ -33,7 +33,7 @@ entities:
     - type: MetaData
       name: Parma
     - type: Transform
-      pos: -40.460163,-0.6979167
+      pos: -0.460163,-0.6979167
       parent: invalid
     - type: MapGrid
       chunks:

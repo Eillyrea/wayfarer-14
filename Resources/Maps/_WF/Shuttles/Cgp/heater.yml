@@ -35,7 +35,7 @@ entities:
     - type: MetaData
       name: Heater
     - type: Transform
-      pos: -20.470976,-0.33907926
+      pos: -0.470976,-0.33907926
       parent: invalid
     - type: MapGrid
       chunks:
