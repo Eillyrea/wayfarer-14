@@ -1055,3 +1055,10 @@ Entries:
   id: 6612
   time: '2026-01-28T00:26:31.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/373
+- author: kitbravo
+  changes:
+    - type: Add
+      message: Blue and magenta flare boxes to Autolathe an salvage vendor
+  id: 6613
+  time: '2026-01-28T00:53:56.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/370
